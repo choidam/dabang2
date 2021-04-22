@@ -142,15 +142,13 @@ extension RoomCell {
         }
         
     }
-    
+        
     private func bindState(reactor: RoomCellReactor){
         
         reactor.state
             .map { $0.room }
             .subscribe(onNext: { [weak self] room in
                 guard let self = self else { return }
-
-                self.titleLabel.text = room.priceTitle
                 
                 switch room.roomType {
                 case 0:
@@ -159,9 +157,13 @@ extension RoomCell {
                     self.roomTypeLabel.text = "투쓰리룸"
                 case 2:
                     self.roomTypeLabel.text = "오피스텔"
-                default:
+                case 3:
                     self.roomTypeLabel.text = "아파트"
+                default:
+                    break
                 }
+
+                self.titleLabel.text = room.priceTitle
                 
                 self.descriptionLabel.text = room.desc
                 

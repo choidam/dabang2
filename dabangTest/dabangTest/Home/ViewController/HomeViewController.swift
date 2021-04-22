@@ -198,7 +198,7 @@ extension HomeViewController {
             $0.centerY.equalTo(saleKindLabel.snp.centerY)
         }
         
-        sortPriceButton.makeSelectButton()
+        sortPriceButton.makeSelect()
         sortPriceButton.snp.makeConstraints{
             $0.leading.equalTo(201)
             $0.centerY.equalTo(monthlyRentButton.snp.centerY)

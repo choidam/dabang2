@@ -13,7 +13,7 @@ import RxDataSources
 class HomeService: HomeServiceType {
     
     var roomItems: [RoomModel] = [] // 전체 데이터
-    var averageItems: [AverageModel] = []
+    var averageItem: AverageModel = AverageModel(monthPrice: "", name: "", yearPrice: "")
     
     var items: [RoomModel] = []
     
@@ -26,8 +26,6 @@ class HomeService: HomeServiceType {
                 let decoder = JSONDecoder()
                 let roomData = try decoder.decode(RoomResponseString.self, from: data)
                 var index: Int = 0
-                
-                self.averageItems.insert(AverageModel(monthPrice: roomData.average[0].monthPrice, name: roomData.average[0].name, yearPrice: roomData.average[0].yearPrice), at: 0)
                 
                 for room in roomData.rooms {
                     var tmp = ""
@@ -81,21 +79,24 @@ class HomeService: HomeServiceType {
     }
     
     @discardableResult
-    func getAverageList() -> [AverageModel] {
+    func getAverageList() -> AverageModel {
         if let filepath = Bundle.main.path(forResource: "RoomListData", ofType: "txt") {
             do {
                 let contents = try String(contentsOfFile: filepath)
                 let data = contents.data(using: .utf8)!
                 let decoder = JSONDecoder()
                 let roomData = try decoder.decode(RoomResponseString.self, from: data)
-                self.averageItems.insert(AverageModel(monthPrice: roomData.average[0].monthPrice, name: roomData.average[0].name, yearPrice: roomData.average[0].yearPrice), at: 0)
+                
+                self.averageItem.name = roomData.average[0].name
+                self.averageItem.monthPrice = roomData.average[0].monthPrice
+                self.averageItem.yearPrice = roomData.average[0].yearPrice
             } catch let e as NSError{
                 print(e.localizedDescription)
             }
         } else {
             print("roadTextFile filepath error")
         }
-        return averageItems
+        return averageItem
     }
     
     @discardableResult

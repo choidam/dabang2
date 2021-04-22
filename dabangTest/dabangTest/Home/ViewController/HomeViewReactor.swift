@@ -60,7 +60,7 @@ final class HomeViewReactor: Reactor {
     private let service: HomeService
     
     var roomItems: [RoomSectionItem] = []
-    var averageItems: [AverageModel] = []
+    var averageItem: AverageModel = AverageModel(monthPrice: "", name: "", yearPrice: "")
     
     init(service: HomeService){
         self.service = service
@@ -71,7 +71,11 @@ final class HomeViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .getlist:
-            averageItems.append(service.getAverageList()[0]) // 평균가 데이터
+            let avg = service.getAverageList()
+            averageItem.name = avg.name
+            averageItem.monthPrice = avg.monthPrice
+            averageItem.yearPrice = avg.yearPrice
+
             return service.getRoomList().map(Mutation.list) // 방 데이터
             
         case .sort(let isIncrease):
@@ -136,13 +140,15 @@ final class HomeViewReactor: Reactor {
     private func setSectionItem(list: [RoomModel]){
         roomItems.removeAll()
         
-        let size = list.count + (list.count/12)
+        let size = list.count + 1
+        
         for index in 0...size-1 {
-            if (index+1) % 13 == 0 {
-                roomItems.append(RoomSectionItem.average(AverageCellReactor(average: averageItems[0])))
+            if index < 12 {
+                roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[index])))
+            } else if index == 12 {
+                roomItems.append(RoomSectionItem.average(AverageCellReactor(average: averageItem)))
             } else {
-                let idx = index - (index/12)
-                roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[idx])))
+                roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[index-1])))
             }
         }
     }
