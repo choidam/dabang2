@@ -51,7 +51,6 @@ class AverageCell: BaseTableViewCell<AverageCellReactor> {
         $0.font = UIFont.systemFont(ofSize: 16, weight: .bold)
     }
     
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addView()

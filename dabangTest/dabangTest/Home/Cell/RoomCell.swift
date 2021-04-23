@@ -56,6 +56,10 @@ class RoomCell: BaseTableViewCell<RoomCellReactor> {
         $0.setTitle("tag4", for: .normal)
     }
     
+    let selectImageView = UIImageView().then {
+        $0.image = UIImage(named: "star2")
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addView()
@@ -85,6 +89,7 @@ extension RoomCell {
         contentView.addSubview(tag3)
         contentView.addSubview(tag4)
         contentView.addSubview(divideView)
+        contentView.addSubview(selectImageView)
     }
     
     private func initLayout(){
@@ -141,6 +146,12 @@ extension RoomCell {
             $0.height.equalTo(1)
         }
         
+        selectImageView.snp.makeConstraints{
+            $0.width.height.equalTo(18)
+            $0.top.equalTo(22)
+            $0.trailing.equalTo(-21)
+        }
+        
     }
         
     private func bindState(reactor: RoomCellReactor){
@@ -194,6 +205,11 @@ extension RoomCell {
                     self.tag3.setTitle(room.hashTags[2], for: .normal)
                     self.tag4.setTitle(room.hashTags[3], for: .normal)
                 }
+                
+                if room.isCheck {
+                    self.selectImageView.image = UIImage(named: "star1")
+                }
+                
             })
             .disposed(by: disposeBag)
     }
