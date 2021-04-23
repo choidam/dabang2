@@ -22,6 +22,7 @@ final class HomeViewReactor: Reactor {
     
     enum Mutation {
         case list([RoomModel])
+        case sort([RoomModel], isIncrease: Bool)
         case filterRoomList([RoomModel], isSelect: Bool, selectIndex: Int)
         case filterSaleList([RoomModel], isSelect: Bool, selectIndex: Int)
         case errorMsg
@@ -29,6 +30,7 @@ final class HomeViewReactor: Reactor {
         var bindMutation: BindMutation {
             switch self {
             case .list: return .list
+            case .sort: return .sort
             case .filterRoomList: return .filterRoomList
             case .filterSaleList: return .filterSaleList
             case .errorMsg: return .errorMsg
@@ -39,6 +41,7 @@ final class HomeViewReactor: Reactor {
     enum BindMutation {
         case initialState
         case list
+        case sort
         case filterRoomList
         case filterSaleList
         case errorMsg
@@ -93,7 +96,7 @@ final class HomeViewReactor: Reactor {
             return service.selectSaleKind(selectIndex: selectIndex, isSelect: isSelect, isIncrease: isIncrease).map { Mutation.filterSaleList($0, isSelect: isSelect, selectIndex: selectIndex) }
             
         case .loadMore:
-            return service.loadMore(selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes, isIncrease: true).map(Mutation.list)
+            return service.loadMore(selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes, isIncrease: currentState.isIncrease).map(Mutation.list)
         }
     }
     
@@ -105,6 +108,10 @@ final class HomeViewReactor: Reactor {
         case .list(let list):
             setSectionItem(list: list)
             state.sections = [.section(roomItems)]
+            
+        case .sort(let list, let isIncrease):
+            setSectionItem(list: list)
+            state.isIncrease = isIncrease
             
         case .filterRoomList(let list, let isSelect, let selectIndex):
             if isSelect {

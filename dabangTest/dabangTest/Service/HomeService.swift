@@ -133,19 +133,6 @@ class HomeService: HomeServiceType {
     }
     
     @discardableResult
-    func scroll() -> Observable<[RoomModel]>{
-        
-        if items.count + 12 < roomItems.count {
-            let idx = items.count - 1
-            for idx in idx...idx+12{
-                items.append(roomItems[idx])
-            }
-        }
-        
-        return Observable.just(items)
-    }
-    
-    @discardableResult
     func loadMore(selectedRoomTypes: [Int], selectedSellingTypes: [Int], isIncrease: Bool) -> Observable<[RoomModel]>{
         
         if items.count + 12 <= roomItems.count {
