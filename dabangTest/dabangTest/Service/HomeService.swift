@@ -144,5 +144,34 @@ class HomeService: HomeServiceType {
         
         return Observable.just(items)
     }
+    
+    @discardableResult
+    func loadMore(selectedRoomTypes: [Int], selectedSellingTypes: [Int], isIncrease: Bool) -> Observable<[RoomModel]>{
+        
+        if items.count + 12 <= roomItems.count {
+            var addCount = 0
+            
+            for index in items.count...roomItems.count-1{
+                let room = roomItems[index]
+                
+                if selectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
+                    addCount += 1
+                    items.append(room)
+                }
+                
+                if addCount >= 12 {
+                    break
+                }
+            }
+            
+            if isIncrease {
+                items.sort(by: { $0.price < $1.price })
+            } else {
+                items.sort(by: { $0.price > $1.price })
+            }
+        }
+        
+        return Observable.just(items)
+    }
 
 }

@@ -22,8 +22,8 @@ final class HomeViewReactor: Reactor {
     
     enum Mutation {
         case list([RoomModel])
-        case filterRoomList([RoomModel], isSelect: Bool)
-        case filterSaleList([RoomModel], isSelect: Bool)
+        case filterRoomList([RoomModel], isSelect: Bool, selectIndex: Int)
+        case filterSaleList([RoomModel], isSelect: Bool, selectIndex: Int)
         case errorMsg
         
         var bindMutation: BindMutation {
@@ -51,6 +51,11 @@ final class HomeViewReactor: Reactor {
         
         var roomTypeCount: Int = 4
         var saleTypeCount: Int = 3
+        
+        var selectedRoomTypes: [Int] = [0,1,2,3]
+        var selectedSellingTypes: [Int] = [0,1,2]
+        
+        var isIncrease: Bool = true
         
         var errorMsg: String?
     }
@@ -82,13 +87,13 @@ final class HomeViewReactor: Reactor {
             return service.sortRoomList(isIncrease: isIncrease).map(Mutation.list)
             
         case .selectRoom(let selectIndex, let isSelect, let isIncrease):
-            return service.selectRoomKind(selectIndex: selectIndex, isSelect: isSelect, isIncrease: isIncrease).map { Mutation.filterRoomList($0, isSelect: isSelect) }
+            return service.selectRoomKind(selectIndex: selectIndex, isSelect: isSelect, isIncrease: isIncrease).map { Mutation.filterRoomList($0, isSelect: isSelect, selectIndex: selectIndex)}
  
         case .selectSale(let selectIndex, let isSelect, let isIncrease):
-            return service.selectSaleKind(selectIndex: selectIndex, isSelect: isSelect, isIncrease: isIncrease).map { Mutation.filterSaleList($0, isSelect: isSelect) }
+            return service.selectSaleKind(selectIndex: selectIndex, isSelect: isSelect, isIncrease: isIncrease).map { Mutation.filterSaleList($0, isSelect: isSelect, selectIndex: selectIndex) }
             
         case .loadMore:
-            return service.scroll().map(Mutation.list)
+            return service.loadMore(selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes, isIncrease: true).map(Mutation.list)
         }
     }
     
@@ -101,29 +106,33 @@ final class HomeViewReactor: Reactor {
             setSectionItem(list: list)
             state.sections = [.section(roomItems)]
             
-        case .filterRoomList(let list, let isSelect):
+        case .filterRoomList(let list, let isSelect, let selectIndex):
             if isSelect {
                 state.roomTypeCount += 1
+                state.selectedRoomTypes.append(selectIndex)
             } else {
                 if state.roomTypeCount == 1 {
                     state.state = .errorMsg
                     return state
                 }
                 state.roomTypeCount -= 1
+                state.selectedRoomTypes = state.selectedRoomTypes.filter { $0 != selectIndex }
             }
             
             setSectionItem(list: list)
             state.sections = [.section(roomItems)]
             
-        case .filterSaleList(let list, let isSelect):
+        case .filterSaleList(let list, let isSelect, let selectIndex):
             if isSelect {
                 state.saleTypeCount += 1
+                state.selectedSellingTypes.append(selectIndex)
             } else {
                 if state.saleTypeCount == 1 {
                     state.state = .errorMsg
                     return state
                 }
                 state.saleTypeCount -= 1
+                state.selectedSellingTypes = state.selectedSellingTypes.filter { $0 != selectIndex }
             }
             
             setSectionItem(list: list)
@@ -140,25 +149,11 @@ final class HomeViewReactor: Reactor {
     private func setSectionItem(list: [RoomModel]){
         roomItems.removeAll()
         
-        let size = list.count + 1
-        
-        for index in 0...size-1 {
-            if index < 12 {
-                let roomType = list[index].roomType
-                if roomType == 0 || roomType == 1 {
-                    roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[index])))
-                } else {
-                    roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: list[index])))
-                }
-            } else if index == 12 {
-                roomItems.append(RoomSectionItem.average(AverageCellReactor(average: averageItem)))
+        for room in list {
+            if room.roomType == 0 || room.roomType == 1 {
+                roomItems.append(RoomSectionItem.room(RoomCellReactor(room: room)))
             } else {
-                let roomType = list[index-1].roomType
-                if roomType == 0 || roomType == 1 {
-                    roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[index-1])))
-                } else {
-                    roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: list[index-1])))
-                }
+                roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: room)))
             }
         }
     }
