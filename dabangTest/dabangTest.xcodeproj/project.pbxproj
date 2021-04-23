@@ -32,6 +32,8 @@
 		ED82DFA02627DEE200DDE880 /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED82DF9F2627DEE200DDE880 /* UIButton+Extensions.swift */; };
 		ED82DFA42627E18300DDE880 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED82DFA32627E18300DDE880 /* UIColor+Extensions.swift */; };
 		ED82DFA72628048C00DDE880 /* RoomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED82DFA62628048C00DDE880 /* RoomCell.swift */; };
+		EDAB76AA2632547500005240 /* ApartmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAB76A92632547500005240 /* ApartmentCell.swift */; };
+		EDAB76AD2632548C00005240 /* ApartmentCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAB76AC2632548C00005240 /* ApartmentCellReactor.swift */; };
 		EDD4E856262EB5E7007008B6 /* RoomModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD4E855262EB5E7007008B6 /* RoomModel.swift */; };
 		EDD4E859262EB5EE007008B6 /* AverageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD4E858262EB5EE007008B6 /* AverageModel.swift */; };
 		EDF7FF54262D5C6F00C4DC7D /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF7FF53262D5C6F00C4DC7D /* BaseTableViewCell.swift */; };
@@ -62,6 +64,8 @@
 		ED82DF9F2627DEE200DDE880 /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		ED82DFA32627E18300DDE880 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		ED82DFA62628048C00DDE880 /* RoomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCell.swift; sourceTree = "<group>"; };
+		EDAB76A92632547500005240 /* ApartmentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentCell.swift; sourceTree = "<group>"; };
+		EDAB76AC2632548C00005240 /* ApartmentCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentCellReactor.swift; sourceTree = "<group>"; };
 		EDD4E855262EB5E7007008B6 /* RoomModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomModel.swift; sourceTree = "<group>"; };
 		EDD4E858262EB5EE007008B6 /* AverageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageModel.swift; sourceTree = "<group>"; };
 		EDF7FF53262D5C6F00C4DC7D /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
@@ -124,6 +128,8 @@
 				ED7E68AF262961910016BE4E /* AverageCell.swift */,
 				EDF7FF59262D5E4800C4DC7D /* AverageCellReactor.swift */,
 				ED7E68A72629338A0016BE4E /* RoomSection.swift */,
+				EDAB76A92632547500005240 /* ApartmentCell.swift */,
+				EDAB76AC2632548C00005240 /* ApartmentCellReactor.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -327,11 +333,13 @@
 				ED82DF5E2627D30600DDE880 /* SceneDelegate.swift in Sources */,
 				ED82DF962627D94500DDE880 /* Room.swift in Sources */,
 				ED82DFA72628048C00DDE880 /* RoomCell.swift in Sources */,
+				EDAB76AA2632547500005240 /* ApartmentCell.swift in Sources */,
 				ED82DF9B2627DB1800DDE880 /* HomeViewReactor.swift in Sources */,
 				EDF7FF57262D5D1A00C4DC7D /* RoomCellReactor.swift in Sources */,
 				EDF7FF5A262D5E4800C4DC7D /* AverageCellReactor.swift in Sources */,
 				ED7E68A82629338A0016BE4E /* RoomSection.swift in Sources */,
 				ED56BDBE26313ABD00EE4DD6 /* UIScrollView+Extensions.swift in Sources */,
+				EDAB76AD2632548C00005240 /* ApartmentCellReactor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

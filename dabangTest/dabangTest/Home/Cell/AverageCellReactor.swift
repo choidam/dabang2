@@ -14,10 +14,6 @@ class AverageCellReactor: Reactor {
     
     typealias Action = NoAction
     
-    enum Mutation {
-        
-    }
-    
     struct State {
         var average: AverageModel
     }

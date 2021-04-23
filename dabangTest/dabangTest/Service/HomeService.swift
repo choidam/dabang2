@@ -25,7 +25,6 @@ class HomeService: HomeServiceType {
                 let data = contents.data(using: .utf8)!
                 let decoder = JSONDecoder()
                 let roomData = try decoder.decode(RoomResponseString.self, from: data)
-                var index: Int = 0
                 
                 for room in roomData.rooms {
                     var tmp = ""
@@ -47,8 +46,7 @@ class HomeService: HomeServiceType {
                         }
                     }
                     
-                    self.roomItems.insert(RoomModel(desc: room.desc, isCheck: room.isCheck, priceTitle: room.priceTitle, price: price, roomType: room.roomType, sellingType: room.sellingType, hashTags: room.hashTags, imgURL: room.imgURL), at: index)
-                    index += 1
+                    self.roomItems.append(RoomModel(desc: room.desc, isCheck: room.isCheck, priceTitle: room.priceTitle, price: price, roomType: room.roomType, sellingType: room.sellingType, hashTags: room.hashTags, imgURL: room.imgURL))
                 }
                 
                 for i in 0...11{

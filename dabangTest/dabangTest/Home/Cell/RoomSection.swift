@@ -30,5 +30,6 @@ extension RoomSection: SectionModelType {
 
 enum RoomSectionItem {
     case room(RoomCellReactor)
+    case apartment(ApartmentCellReactor)
     case average(AverageCellReactor)
 }

@@ -90,6 +90,7 @@ class HomeViewController: BaseViewController, View {
         $0.separatorStyle = .none
         $0.register(RoomCell.self, forCellReuseIdentifier: RoomCell.identifier)
         $0.register(AverageCell.self, forCellReuseIdentifier: AverageCell.identifier)
+        $0.register(ApartmentCell.self, forCellReuseIdentifier: ApartmentCell.identifier)
     }
     
     private static func dataSourceFactory() -> RxTableViewSectionedReloadDataSource<RoomSection> {
@@ -101,6 +102,10 @@ class HomeViewController: BaseViewController, View {
                 return cell
             case .room(let reactor):
                 let cell = tableView.dequeueReusableCell(withIdentifier: RoomCell.identifier, for: indexPath) as! RoomCell
+                cell.reactor = reactor
+                return cell
+            case .apartment(let reactor):
+                let cell = tableView.dequeueReusableCell(withIdentifier: ApartmentCell.identifier, for: indexPath) as! ApartmentCell
                 cell.reactor = reactor
                 return cell
             }
