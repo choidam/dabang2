@@ -10,7 +10,7 @@ import RxDataSources
 
 // MARK: - RoomModel
 struct RoomModel: Equatable, IdentifiableType {
-    let identity = UUID()
+    let identity = UUID().uuidString
     
     var desc: String
     var isCheck: Bool

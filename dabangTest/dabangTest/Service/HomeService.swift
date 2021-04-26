@@ -85,7 +85,7 @@ class HomeService: HomeServiceType {
         var idx = 0
         let lastRoom = items[items.count-1]
         for index in 0...roomItems.count-1{
-            if lastRoom == roomItems[index] {
+            if lastRoom.identity == roomItems[index].identity {
                 idx = index
             }
         }
@@ -121,7 +121,7 @@ class HomeService: HomeServiceType {
         var idx = 0
         let lastRoom = items[items.count-1]
         for index in 0...roomItems.count-1{
-            if lastRoom == roomItems[index] {
+            if lastRoom.identity == roomItems[index].identity {
                 idx = index
             }
         }
@@ -167,9 +167,7 @@ class HomeService: HomeServiceType {
                     items.append(room)
                 }
                 
-                if addCount >= 12 {
-                    break
-                }
+                if addCount >= 12 { break }
             }
             
             sortRoomList(isIncrease: isIncrease)
