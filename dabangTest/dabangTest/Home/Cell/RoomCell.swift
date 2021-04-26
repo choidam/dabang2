@@ -205,6 +205,14 @@ extension RoomCell {
                     self.tag2.setTitle(room.hashTags[1], for: .normal)
                     self.tag3.setTitle(room.hashTags[2], for: .normal)
                     self.tag4.setTitle(room.hashTags[3], for: .normal)
+                    
+                    let leftWidth = UIScreen.main.bounds.width - 15 - self.tag1.intrinsicContentSize.width - self.tag2.intrinsicContentSize.width - self.tag3.intrinsicContentSize.width - 120
+                    
+                    if leftWidth <= self.tag4.intrinsicContentSize.width {
+                        self.tag4.snp.makeConstraints {
+                            $0.width.equalTo(leftWidth)
+                        }
+                    }
                 }
                 
                 if room.isCheck {

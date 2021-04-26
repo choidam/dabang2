@@ -253,7 +253,7 @@ extension HomeViewController {
                 self.oneRoomButton.isSelected = !self.oneRoomButton.isSelected
                 self.oneRoomButton.makeSelect()
                 
-                self.listTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true) // TODO:
+                self.scrollToTop()
             })
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -267,7 +267,7 @@ extension HomeViewController {
                 self.twoRoomButton.isSelected = !self.twoRoomButton.isSelected
                 self.twoRoomButton.makeSelect()
                 
-                self.listTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                self.scrollToTop()
             })
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -281,7 +281,7 @@ extension HomeViewController {
                 self.officehotelButton.isSelected = !self.officehotelButton.isSelected
                 self.officehotelButton.makeSelect()
                 
-                self.listTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                self.scrollToTop()
             })
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -295,7 +295,7 @@ extension HomeViewController {
                 self.apartmentButton.isSelected = !self.apartmentButton.isSelected
                 self.apartmentButton.makeSelect()
                 
-                self.listTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                self.scrollToTop()
             })
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -310,7 +310,7 @@ extension HomeViewController {
                 self.monthlyRentButton.isSelected = !self.monthlyRentButton.isSelected
                 self.monthlyRentButton.makeSelect()
                 
-                self.listTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                self.scrollToTop()
             })
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -324,7 +324,7 @@ extension HomeViewController {
                 self.leaseRentButton.isSelected = !self.leaseRentButton.isSelected
                 self.leaseRentButton.makeSelect()
                 
-                self.listTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                self.scrollToTop()
             })
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -338,7 +338,7 @@ extension HomeViewController {
                 self.saleButton.isSelected = !self.saleButton.isSelected
                 self.saleButton.makeSelect()
                 
-                self.listTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                self.scrollToTop()
             })
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -363,14 +363,16 @@ extension HomeViewController {
             .map { $0.errorMsg }
             .subscribe(onNext: { _ in
                 print("error~~~")
-                
-                let alert = UIAlertController(title: "error", message: "더 이상 스크롤 할 수 없습니다.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
-
-                self.present(alert, animated: true)
             })
             .disposed(by: disposeBag)
         
+    }
+    
+    func scrollToTop() {
+        if (self.listTableView.numberOfSections > 0 ) {
+            let top = NSIndexPath(row: Foundation.NSNotFound, section: 0)
+            self.listTableView.scrollToRow(at: top as IndexPath, at: .top, animated: true);
+        }
     }
 }
 

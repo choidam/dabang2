@@ -73,6 +73,8 @@ final class HomeViewReactor: Reactor {
     var roomItems: [RoomSectionItem] = []
     var averageItem: AverageModel = AverageModel(monthPrice: "", name: "", yearPrice: "")
     
+    var hasMore: Bool = true
+    
     init(service: HomeService){
         self.service = service
         
@@ -99,6 +101,10 @@ final class HomeViewReactor: Reactor {
             return service.selectSaleKind(selectIndex: selectIndex, isSelect: isSelect, isIncrease: isIncrease).map { Mutation.filterSaleList($0, isSelect: isSelect, selectIndex: selectIndex) }
             
         case .loadMore:
+            guard hasMore == true else {
+                return .empty()
+            }
+            
             return service.loadMore(selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes, isIncrease: currentState.isIncrease).map(Mutation.scroll)
         }
     }
@@ -149,8 +155,8 @@ final class HomeViewReactor: Reactor {
             state.sections = [.section(roomItems)]
             
         case .scroll(let list):
-            if list.count == roomItems.count {
-                state.state = .errorMsg
+            if list.count == roomItems.count-1 {
+                hasMore = false
                 return state
             }
             
