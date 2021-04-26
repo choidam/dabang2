@@ -136,7 +136,9 @@ class HomeService: HomeServiceType {
     }
     
     @discardableResult
-    func loadMore(selectedRoomTypes: [Int], selectedSellingTypes: [Int], isIncrease: Bool) -> Observable<[RoomModel]>{
+    func loadMore(selectedRoomTypes: [Int], selectedSellingTypes: [Int], isIncrease: Bool) -> (Observable<[RoomModel]>, Bool){
+        
+        var hasNext: Bool = true
         
         if items.count + 12 <= roomItems.count {
             var addCount = 0
@@ -155,9 +157,11 @@ class HomeService: HomeServiceType {
             }
             
             sortRoomList(isIncrease: isIncrease)
+        } else {
+            hasNext = false
         }
         
-        return Observable.just(items)
+        return (Observable.just(items), hasNext)
     }
 
 }

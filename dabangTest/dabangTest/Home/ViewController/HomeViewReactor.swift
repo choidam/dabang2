@@ -25,7 +25,6 @@ final class HomeViewReactor: Reactor {
         case sort([RoomModel], isIncrease: Bool)
         case filterRoomList([RoomModel], isSelect: Bool, selectIndex: Int)
         case filterSaleList([RoomModel], isSelect: Bool, selectIndex: Int)
-        case scroll([RoomModel])
         case errorMsg
         
         var bindMutation: BindMutation {
@@ -34,7 +33,6 @@ final class HomeViewReactor: Reactor {
             case .sort: return .sort
             case .filterRoomList: return .filterRoomList
             case .filterSaleList: return .filterSaleList
-            case .scroll: return .scroll
             case .errorMsg: return .errorMsg
             }
         }
@@ -46,7 +44,6 @@ final class HomeViewReactor: Reactor {
         case sort
         case filterRoomList
         case filterSaleList
-        case scroll
         case errorMsg
     }
     
@@ -72,8 +69,6 @@ final class HomeViewReactor: Reactor {
     
     var roomItems: [RoomSectionItem] = []
     var averageItem: AverageModel = AverageModel(monthPrice: "", name: "", yearPrice: "")
-    
-    var hasMore: Bool = true
     
     init(service: HomeService){
         self.service = service
@@ -103,11 +98,13 @@ final class HomeViewReactor: Reactor {
             return service.selectSaleKind(selectIndex: selectIndex, isSelect: isSelect, isIncrease: isIncrease).map { Mutation.filterSaleList($0, isSelect: isSelect, selectIndex: selectIndex) }
             
         case .loadMore:
-            guard hasMore == true else {
-                return .empty()
-            }
+            let loadmore = service.loadMore(selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes, isIncrease: currentState.isIncrease)
             
-            return service.loadMore(selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes, isIncrease: currentState.isIncrease).map(Mutation.scroll)
+            if loadmore.1 == false {
+                return .empty()
+            } else {
+                return loadmore.0.map(Mutation.list)
+            }
         }
     }
     
@@ -155,16 +152,7 @@ final class HomeViewReactor: Reactor {
             
             setSectionItem(list: list)
             state.sections = [.section(roomItems)]
-            
-        case .scroll(let list):
-            if list.count == roomItems.count-1 {
-                hasMore = false
-                return state
-            }
-            
-            setSectionItem(list: list)
-            state.sections = [.section(roomItems)]
-            
+                        
         case .errorMsg:
             state.errorMsg = "에러~~"
             return state
@@ -176,30 +164,20 @@ final class HomeViewReactor: Reactor {
     private func setSectionItem(list: [RoomModel]){
         roomItems.removeAll()
         
-        if list.count >= 11 {
-            for i in 0...list.count {
-                if i<12 {
-                    if list[i].roomType == 0 || list[i].roomType == 1 {
-                        roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[i])))
-                    } else {
-                        roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: list[i])))
-                    }
-                } else if i == 12 {
-                    roomItems.append(RoomSectionItem.average(AverageCellReactor(average: self.averageItem)))
+        for i in 0...list.count {
+            if i<12 {
+                if list[i].roomType == 0 || list[i].roomType == 1 {
+                    roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[i])))
                 } else {
-                    if list[i-1].roomType == 0 || list[i-1].roomType == 1 {
-                        roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[i-1])))
-                    } else {
-                        roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: list[i-1])))
-                    }
+                    roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: list[i])))
                 }
-            }
-        } else {
-            for room in list {
-                if room.roomType == 0 || room.roomType == 1 {
-                    roomItems.append(RoomSectionItem.room(RoomCellReactor(room: room)))
+            } else if i == 12 {
+                roomItems.append(RoomSectionItem.average(AverageCellReactor(average: self.averageItem)))
+            } else {
+                if list[i-1].roomType == 0 || list[i-1].roomType == 1 {
+                    roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[i-1])))
                 } else {
-                    roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: room)))
+                    roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: list[i-1])))
                 }
             }
         }
