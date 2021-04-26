@@ -13,12 +13,12 @@ import RxDataSources
 class HomeService: HomeServiceType {
     
     var roomItems: [RoomModel] = [] // 전체 데이터
-    var averageItem: AverageModel = AverageModel(monthPrice: "", name: "", yearPrice: "")
-    
     var items: [RoomModel] = []
     
     @discardableResult
     func getRoomList() -> (Observable<[RoomModel]>, AverageModel) {
+        var averageItem = AverageModel(monthPrice: "", name: "", yearPrice: "")
+        
         if let filepath = Bundle.main.path(forResource: "RoomListData", ofType: "txt") {
             do {
                 let contents = try String(contentsOfFile: filepath)
@@ -51,13 +51,12 @@ class HomeService: HomeServiceType {
                     }
                     
                     self.roomItems.append(RoomModel(desc: room.desc, isCheck: room.isCheck, priceTitle: room.priceTitle, price: price, roomType: room.roomType, sellingType: room.sellingType, hashTags: room.hashTags, imgURL: room.imgURL))
+                    roomItems.sort(by: { $0.price < $1.price })
                 }
                 
                 for i in 0...11{
                     items.append(roomItems[i])
                 }
-                
-                self.sortRoomList(isIncrease: true)
                 
             } catch let e as NSError{
                 print(e.localizedDescription)
@@ -80,14 +79,22 @@ class HomeService: HomeServiceType {
         return Observable.just(items)
     }
     
-    // TODO: hasNext
     @discardableResult
     func selectRoomKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool) -> Observable<[RoomModel]> {
+        sortRoomList(isIncrease: true)
+        var idx = 0
+        let lastRoom = items[items.count-1]
+        for index in 0...roomItems.count-1{
+            if lastRoom == roomItems[index] {
+                idx = index
+            }
+        }
+        
         if !isSelect {
             items.removeAll(where: { $0.roomType == selectIndex })
             
             if items.count < 12 {
-                for index in items.count...roomItems.count-1 {
+                for index in idx+1...roomItems.count-1 {
                     let room = roomItems[index]
                     if roomItems[index].roomType != selectIndex {
                         items.append(room)
@@ -96,9 +103,9 @@ class HomeService: HomeServiceType {
                 }
             }
         } else {
-            for room in roomItems {
-                if room.roomType == selectIndex {
-                    items.append(room)
+            for index in idx+1...roomItems.count-1 {
+                if roomItems[index].roomType == selectIndex {
+                    items.append(roomItems[index])
                 }
             }
         }
@@ -110,11 +117,20 @@ class HomeService: HomeServiceType {
     
     @discardableResult
     func selectSaleKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool) -> Observable<[RoomModel]> {
+        sortRoomList(isIncrease: true)
+        var idx = 0
+        let lastRoom = items[items.count-1]
+        for index in 0...roomItems.count-1{
+            if lastRoom == roomItems[index] {
+                idx = index
+            }
+        }
+        
         if !isSelect {
             items.removeAll(where: { $0.sellingType == selectIndex })
             
             if items.count < 12 {
-                for index in items.count...roomItems.count-1 {
+                for index in idx+1...roomItems.count-1 {
                     let room = roomItems[index]
                     if roomItems[index].roomType != selectIndex {
                         items.append(room)
@@ -123,9 +139,9 @@ class HomeService: HomeServiceType {
                 }
             }
         } else {
-            for room in roomItems {
-                if room.sellingType == selectIndex {
-                    items.append(room)
+            for index in idx+1...roomItems.count-1 {
+                if roomItems[index].sellingType == selectIndex {
+                    items.append(roomItems[index])
                 }
             }
         }

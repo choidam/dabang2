@@ -10,7 +10,7 @@ import RxDataSources
 
 // MARK: - RoomModel
 struct RoomModel: Equatable, IdentifiableType {
-    var identity: String
+    let identity = UUID()
     
     var desc: String
     var isCheck: Bool
@@ -22,7 +22,6 @@ struct RoomModel: Equatable, IdentifiableType {
     var imgURL: String
     
     init(desc: String, isCheck: Bool, priceTitle: String, price: Int, roomType: Int, sellingType: Int, hashTags: [String], imgURL: String) {
-        self.identity = ""
         self.desc = desc
         self.isCheck = isCheck
         self.priceTitle = priceTitle

@@ -9,14 +9,13 @@ import Foundation
 import RxDataSources
 
 struct AverageModel: Equatable, IdentifiableType {
-    var identity: String
+    let identity = UUID()
     
     var monthPrice: String
     var name: String
     var yearPrice: String
     
     init(monthPrice: String, name: String, yearPrice: String) {
-        self.identity = ""
         self.monthPrice = monthPrice
         self.name = name
         self.yearPrice = yearPrice
