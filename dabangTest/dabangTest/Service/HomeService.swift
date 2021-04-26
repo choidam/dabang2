@@ -138,7 +138,7 @@ class HomeService: HomeServiceType {
         if items.count + 12 <= roomItems.count {
             var addCount = 0
             
-            for index in items.count...roomItems.count-1{
+            for index in items.count...roomItems.count-1 {
                 let room = roomItems[index]
                 
                 if selectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
@@ -151,11 +151,7 @@ class HomeService: HomeServiceType {
                 }
             }
             
-            if isIncrease {
-                items.sort(by: { $0.price < $1.price })
-            } else {
-                items.sort(by: { $0.price > $1.price })
-            }
+            sortRoomList(isIncrease: isIncrease)
         }
         
         return Observable.just(items)

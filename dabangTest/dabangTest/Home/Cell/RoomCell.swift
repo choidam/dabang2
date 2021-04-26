@@ -178,6 +178,7 @@ extension RoomCell {
                 
                 self.descriptionLabel.text = room.desc
                 
+                // TODO: 태그 수정
                 switch room.hashTags.count {
                 case 0:
                     self.tag1.isHidden = true

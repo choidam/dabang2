@@ -363,6 +363,11 @@ extension HomeViewController {
             .map { $0.errorMsg }
             .subscribe(onNext: { _ in
                 print("error~~~")
+                
+                let alert = UIAlertController(title: "error", message: "더 이상 스크롤 할 수 없습니다.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+
+                self.present(alert, animated: true)
             })
             .disposed(by: disposeBag)
         
