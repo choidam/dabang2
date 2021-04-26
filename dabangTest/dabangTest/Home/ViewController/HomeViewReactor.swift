@@ -84,12 +84,14 @@ final class HomeViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .getlist:
-            let avg = service.getAverageList() // 평균가 데이터
+            let list = service.getRoomList()
+            
+            let avg = list.1 // 평균가 데이터
             averageItem.name = avg.name
             averageItem.monthPrice = avg.monthPrice
             averageItem.yearPrice = avg.yearPrice
-
-            return service.getRoomList().map(Mutation.list) // 방 데이터
+            
+            return list.0.map(Mutation.list) // 방 데이터
             
         case .sort(let isIncrease):
             return service.sortRoomList(isIncrease: isIncrease).map(Mutation.list)

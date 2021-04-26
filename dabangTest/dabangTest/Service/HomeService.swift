@@ -18,13 +18,17 @@ class HomeService: HomeServiceType {
     var items: [RoomModel] = []
     
     @discardableResult
-    func getRoomList() -> Observable<[RoomModel]> {
+    func getRoomList() -> (Observable<[RoomModel]>, AverageModel) {
         if let filepath = Bundle.main.path(forResource: "RoomListData", ofType: "txt") {
             do {
                 let contents = try String(contentsOfFile: filepath)
                 let data = contents.data(using: .utf8)!
                 let decoder = JSONDecoder()
                 let roomData = try decoder.decode(RoomResponseString.self, from: data)
+                
+                averageItem.name = roomData.average[0].name
+                averageItem.monthPrice = roomData.average[0].monthPrice
+                averageItem.yearPrice = roomData.average[0].yearPrice
                 
                 for room in roomData.rooms {
                     var tmp = ""
@@ -62,7 +66,7 @@ class HomeService: HomeServiceType {
             print("roadTextFile filepath error")
         }
         
-        return Observable.just(items)
+        return (Observable.just(items), averageItem)
     }
     
     @discardableResult
@@ -76,31 +80,21 @@ class HomeService: HomeServiceType {
         return Observable.just(items)
     }
     
-    @discardableResult
-    func getAverageList() -> AverageModel {
-        if let filepath = Bundle.main.path(forResource: "RoomListData", ofType: "txt") {
-            do {
-                let contents = try String(contentsOfFile: filepath)
-                let data = contents.data(using: .utf8)!
-                let decoder = JSONDecoder()
-                let roomData = try decoder.decode(RoomResponseString.self, from: data)
-                
-                self.averageItem.name = roomData.average[0].name
-                self.averageItem.monthPrice = roomData.average[0].monthPrice
-                self.averageItem.yearPrice = roomData.average[0].yearPrice
-            } catch let e as NSError{
-                print(e.localizedDescription)
-            }
-        } else {
-            print("roadTextFile filepath error")
-        }
-        return averageItem
-    }
-    
+    // TODO: hasNext
     @discardableResult
     func selectRoomKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool) -> Observable<[RoomModel]> {
         if !isSelect {
             items.removeAll(where: { $0.roomType == selectIndex })
+            
+            if items.count < 12 {
+                for index in items.count...roomItems.count-1 {
+                    let room = roomItems[index]
+                    if roomItems[index].roomType != selectIndex {
+                        items.append(room)
+                    }
+                    if items.count >= 12 { break }
+                }
+            }
         } else {
             for room in roomItems {
                 if room.roomType == selectIndex {
@@ -116,9 +110,18 @@ class HomeService: HomeServiceType {
     
     @discardableResult
     func selectSaleKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool) -> Observable<[RoomModel]> {
-        
         if !isSelect {
             items.removeAll(where: { $0.sellingType == selectIndex })
+            
+            if items.count < 12 {
+                for index in items.count...roomItems.count-1 {
+                    let room = roomItems[index]
+                    if roomItems[index].roomType != selectIndex {
+                        items.append(room)
+                    }
+                    if items.count >= 12 { break }
+                }
+            }
         } else {
             for room in roomItems {
                 if room.sellingType == selectIndex {
