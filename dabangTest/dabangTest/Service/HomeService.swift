@@ -80,8 +80,7 @@ class HomeService: HomeServiceType {
     }
     
     @discardableResult
-    func selectRoomKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool) -> Observable<[RoomModel]> {
-        sortRoomList(isIncrease: true)
+    func selectRoomKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [Int], selectedSellingTypes: [Int]) -> Observable<[RoomModel]> {
         var idx = 0
         let lastRoom = items[items.count-1]
         for index in 0...roomItems.count-1{
@@ -92,11 +91,12 @@ class HomeService: HomeServiceType {
         
         if !isSelect {
             items.removeAll(where: { $0.roomType == selectIndex })
+            let roomIndexes = selectedRoomTypes.filter({ $0 != selectIndex })
             
             if items.count < 12 {
                 for index in idx+1...roomItems.count-1 {
                     let room = roomItems[index]
-                    if roomItems[index].roomType != selectIndex {
+                    if roomIndexes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
                         items.append(room)
                     }
                     if items.count >= 12 { break }
@@ -116,8 +116,7 @@ class HomeService: HomeServiceType {
     }
     
     @discardableResult
-    func selectSaleKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool) -> Observable<[RoomModel]> {
-        sortRoomList(isIncrease: true)
+    func selectSaleKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [Int] ,selectedSellingTypes: [Int]) -> Observable<[RoomModel]> {
         var idx = 0
         let lastRoom = items[items.count-1]
         for index in 0...roomItems.count-1{
@@ -128,11 +127,12 @@ class HomeService: HomeServiceType {
         
         if !isSelect {
             items.removeAll(where: { $0.sellingType == selectIndex })
+            let sellingIndexes = selectedSellingTypes.filter({ $0 != selectIndex })
             
             if items.count < 12 {
                 for index in idx+1...roomItems.count-1 {
                     let room = roomItems[index]
-                    if roomItems[index].roomType != selectIndex {
+                    if sellingIndexes.contains(room.sellingType) && selectedRoomTypes.contains(room.roomType) {
                         items.append(room)
                     }
                     if items.count >= 12 { break }

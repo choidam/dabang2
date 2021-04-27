@@ -369,7 +369,7 @@ extension HomeViewController {
     }
     
     func scrollToTop() {
-        if (self.listTableView.numberOfSections > 0 ) {
+        if self.listTableView.numberOfSections > 0  {
             let top = NSIndexPath(row: Foundation.NSNotFound, section: 0)
             self.listTableView.scrollToRow(at: top as IndexPath, at: .top, animated: true);
         }

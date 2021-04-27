@@ -92,10 +92,10 @@ final class HomeViewReactor: Reactor {
             return service.sortRoomList(isIncrease: isIncrease).map(Mutation.list)
             
         case .selectRoom(let selectIndex, let isSelect, let isIncrease):
-            return service.selectRoomKind(selectIndex: selectIndex, isSelect: isSelect, isIncrease: isIncrease).map { Mutation.filterRoomList($0, isSelect: isSelect, selectIndex: selectIndex)}
+            return service.selectRoomKind(selectIndex: selectIndex, isSelect: isSelect, isIncrease: isIncrease, selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes).map { Mutation.filterRoomList($0, isSelect: isSelect, selectIndex: selectIndex)}
  
         case .selectSale(let selectIndex, let isSelect, let isIncrease):
-            return service.selectSaleKind(selectIndex: selectIndex, isSelect: isSelect, isIncrease: isIncrease).map { Mutation.filterSaleList($0, isSelect: isSelect, selectIndex: selectIndex) }
+            return service.selectSaleKind(selectIndex: selectIndex, isSelect: isSelect, isIncrease: isIncrease, selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes).map { Mutation.filterSaleList($0, isSelect: isSelect, selectIndex: selectIndex) }
             
         case .loadMore:
             let loadmore = service.loadMore(selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes, isIncrease: currentState.isIncrease)
