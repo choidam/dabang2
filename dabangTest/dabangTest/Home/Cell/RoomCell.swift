@@ -60,6 +60,8 @@ class RoomCell: BaseTableViewCell<RoomCellReactor> {
         $0.image = UIImage(named: "star2")
     }
     
+    var widthConstraint: Constraint?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addView()
@@ -207,10 +209,14 @@ extension RoomCell {
                     
                     let leftWidth = UIScreen.main.bounds.width - 15 - self.tag1.intrinsicContentSize.width - self.tag2.intrinsicContentSize.width - self.tag3.intrinsicContentSize.width - 120
                     
+                    self.tag4.snp.makeConstraints { make in
+                        self.widthConstraint = make.width.equalTo(leftWidth).constraint
+                    }
+                    
                     if leftWidth <= self.tag4.intrinsicContentSize.width {
-                        self.tag4.snp.makeConstraints {
-                            $0.width.equalTo(leftWidth)
-                        }
+                        self.widthConstraint?.activate()
+                    } else {
+                        self.widthConstraint?.deactivate()
                     }
                 }
                 
