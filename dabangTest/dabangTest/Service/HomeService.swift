@@ -102,6 +102,11 @@ class HomeService: HomeServiceType {
         }
         
         var hasNext: Bool = true
+        if idx+1 >= roomItems.count-1 {
+            hasNext = false
+            return (Observable.just(items), hasNext)
+        }
+        
         
         if !isSelect {
             items.removeAll(where: { $0.roomType == selectIndex })
@@ -145,6 +150,10 @@ class HomeService: HomeServiceType {
         }
         
         var hasNext: Bool = true
+        if idx+1 >= roomItems.count-1 {
+            hasNext = false
+            return (Observable.just(items), hasNext)
+        }
         
         if !isSelect {
             items.removeAll(where: { $0.sellingType == selectIndex })
