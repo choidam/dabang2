@@ -92,7 +92,7 @@ class HomeService: HomeServiceType {
     }
     
     @discardableResult
-    func selectRoomKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [Int], selectedSellingTypes: [Int]) -> Observable<[RoomModel]> {
+    func selectRoomKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [Int], selectedSellingTypes: [Int]) -> (Observable<[RoomModel]>, Bool) {
         var idx = 0
         let lastRoom = items[items.count-1]
         for index in 0...roomItems.count-1{
@@ -100,6 +100,8 @@ class HomeService: HomeServiceType {
                 idx = index
             }
         }
+        
+        var hasNext: Bool = true
         
         if !isSelect {
             items.removeAll(where: { $0.roomType == selectIndex })
@@ -114,6 +116,11 @@ class HomeService: HomeServiceType {
                     if items.count >= 12 { break }
                 }
             }
+            
+            if items.count < 12 {
+                hasNext = false
+            }
+            
         } else {
             for index in idx+1...roomItems.count-1 {
                 if roomItems[index].roomType == selectIndex {
@@ -124,11 +131,11 @@ class HomeService: HomeServiceType {
         
         sortItems(isIncrease: isIncrease)
         
-        return Observable.just(items)
+        return (Observable.just(items), hasNext)
     }
     
     @discardableResult
-    func selectSaleKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [Int] ,selectedSellingTypes: [Int]) -> Observable<[RoomModel]> {
+    func selectSaleKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [Int] ,selectedSellingTypes: [Int]) -> (Observable<[RoomModel]>, Bool) {
         var idx = 0
         let lastRoom = items[items.count-1]
         for index in 0...roomItems.count-1{
@@ -136,6 +143,8 @@ class HomeService: HomeServiceType {
                 idx = index
             }
         }
+        
+        var hasNext: Bool = true
         
         if !isSelect {
             items.removeAll(where: { $0.sellingType == selectIndex })
@@ -149,6 +158,10 @@ class HomeService: HomeServiceType {
                     }
                     if items.count >= 12 { break }
                 }
+                
+                if items.count < 12 {
+                    hasNext = false
+                }
             }
         } else {
             for index in idx+1...roomItems.count-1 {
@@ -160,7 +173,7 @@ class HomeService: HomeServiceType {
         
         sortItems(isIncrease: isIncrease)
         
-        return Observable.just(items)
+        return (Observable.just(items), hasNext)
     }
     
     @discardableResult
