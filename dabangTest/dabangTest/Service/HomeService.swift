@@ -122,10 +122,6 @@ class HomeService: HomeServiceType {
                 }
             }
             
-            if items.count < 12 {
-                hasNext = false
-            }
-            
         } else {
             for index in idx+1...roomItems.count-1 {
                 if roomItems[index].roomType == selectIndex {
@@ -167,11 +163,8 @@ class HomeService: HomeServiceType {
                     }
                     if items.count >= 12 { break }
                 }
-                
-                if items.count < 12 {
-                    hasNext = false
-                }
             }
+            
         } else {
             for index in idx+1...roomItems.count-1 {
                 if roomItems[index].sellingType == selectIndex {
