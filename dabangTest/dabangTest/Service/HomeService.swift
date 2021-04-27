@@ -69,11 +69,23 @@ class HomeService: HomeServiceType {
     }
     
     @discardableResult
-    func sortRoomList(isIncrease: Bool) -> Observable<[RoomModel]> {
+    func sortRoomList(isIncrease: Bool, selectedRoomTypes: [Int], selectedSellingTypes: [Int]) -> Observable<[RoomModel]> {
         if isIncrease {
-            items.sort(by: { $0.price < $1.price })
+            roomItems.sort(by: { $0.price < $1.price })
         } else {
-            items.sort(by: { $0.price > $1.price })
+            roomItems.sort(by: { $0.price > $1.price })
+        }
+        
+        let count = items.count
+        var addCount = 0
+        items.removeAll()
+        for index in 0...roomItems.count-1 {
+            let room = roomItems[index]
+            if selectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
+                items.append(room)
+                addCount += 1
+            }
+            if addCount == count { break }
         }
         
         return Observable.just(items)
@@ -110,7 +122,7 @@ class HomeService: HomeServiceType {
             }
         }
         
-        sortRoomList(isIncrease: isIncrease)
+        sortItems(isIncrease: isIncrease)
         
         return Observable.just(items)
     }
@@ -146,7 +158,7 @@ class HomeService: HomeServiceType {
             }
         }
         
-        sortRoomList(isIncrease: isIncrease)
+        sortItems(isIncrease: isIncrease)
         
         return Observable.just(items)
     }
@@ -170,12 +182,21 @@ class HomeService: HomeServiceType {
                 if addCount >= 12 { break }
             }
             
-            sortRoomList(isIncrease: isIncrease)
+            sortItems(isIncrease: isIncrease)
         } else {
             hasNext = false
         }
         
         return (Observable.just(items), hasNext)
     }
-
+    
+    private func sortItems(isIncrease: Bool) {
+        if isIncrease {
+            items.sort(by: { $0.price < $1.price })
+        } else {
+            items.sort(by: { $0.price > $1.price })
+        }
+    }
+    
+    
 }

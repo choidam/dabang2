@@ -89,7 +89,7 @@ final class HomeViewReactor: Reactor {
             return list.0.map(Mutation.list) // 방 데이터
             
         case .sort(let isIncrease):
-            return service.sortRoomList(isIncrease: isIncrease).map(Mutation.list)
+            return service.sortRoomList(isIncrease: isIncrease, selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes).map(Mutation.list)
             
         case .selectRoom(let selectIndex, let isSelect, let isIncrease):
             return service.selectRoomKind(selectIndex: selectIndex, isSelect: isSelect, isIncrease: isIncrease, selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes).map { Mutation.filterRoomList($0, isSelect: isSelect, selectIndex: selectIndex)}
@@ -164,23 +164,32 @@ final class HomeViewReactor: Reactor {
     private func setSectionItem(list: [RoomModel]){
         roomItems.removeAll()
         
-        for i in 0...list.count {
-            if i<12 {
-                if list[i].roomType == 0 || list[i].roomType == 1 {
-                    roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[i])))
-                } else {
-                    roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: list[i])))
-                }
-            } else if i == 12 {
-                roomItems.append(RoomSectionItem.average(AverageCellReactor(average: self.averageItem)))
+        for room in list {
+            if room.roomType == 0 || room.roomType == 1 {
+                roomItems.append(RoomSectionItem.room(RoomCellReactor(room: room)))
             } else {
-                if list[i-1].roomType == 0 || list[i-1].roomType == 1 {
-                    roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[i-1])))
-                } else {
-                    roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: list[i-1])))
-                }
+                roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: room)))
             }
         }
+        
+        
+//        for i in 0...list.count {
+//            if i<12 {
+//                if list[i].roomType == 0 || list[i].roomType == 1 {
+//                    roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[i])))
+//                } else {
+//                    roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: list[i])))
+//                }
+//            } else if i == 12 {
+//                roomItems.append(RoomSectionItem.average(AverageCellReactor(average: self.averageItem)))
+//            } else {
+//                if list[i-1].roomType == 0 || list[i-1].roomType == 1 {
+//                    roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[i-1])))
+//                } else {
+//                    roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: list[i-1])))
+//                }
+//            }
+//        }
     }
 
 }

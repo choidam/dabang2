@@ -13,7 +13,7 @@ protocol HomeServiceType {
     func getRoomList() -> (Observable<[RoomModel]>, AverageModel)
 
     @discardableResult
-    func sortRoomList(isIncrease: Bool) -> Observable<[RoomModel]>
+    func sortRoomList(isIncrease: Bool, selectedRoomTypes: [Int], selectedSellingTypes: [Int]) -> Observable<[RoomModel]>
     
     @discardableResult
     func selectRoomKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [Int], selectedSellingTypes: [Int]) -> Observable<[RoomModel]>
