@@ -70,12 +70,17 @@ class HomeService: HomeServiceType {
     
     @discardableResult
     func sortRoomList(isIncrease: Bool, selectedRoomTypes: [Int], selectedSellingTypes: [Int]) -> Observable<[RoomModel]> {
+        
         sortItems(isIncrease: isIncrease)
-
-        for i in 0...11{
-            if selectedRoomTypes.contains(roomItems[i].roomType) && selectedSellingTypes.contains(roomItems[i].sellingType) {
-                items.append(roomItems[i])
+        
+        let count = items.count
+        items.removeAll()
+        
+        for room in roomItems {
+            if selectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
+                items.append(room)
             }
+            if items.count == count { break }
         }
         
         return Observable.just(items)
@@ -113,8 +118,11 @@ class HomeService: HomeServiceType {
             }
             
         } else {
-            for room in roomItems {
-                if room.roomType == selectIndex {
+            var newSelectedRoomTypes = selectedRoomTypes
+            newSelectedRoomTypes.append(selectIndex)
+            
+            for room in newRoomItems {
+                if newSelectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType){
                     items.append(room)
                 }
             }
@@ -157,8 +165,11 @@ class HomeService: HomeServiceType {
             }
             
         } else {
+            var newSelectedSellingTypes = selectedSellingTypes
+            newSelectedSellingTypes.append(selectIndex)
+            
             for room in roomItems {
-                if room.sellingType == selectIndex {
+                if selectedSellingTypes.contains(room.roomType) && newSelectedSellingTypes.contains(room.sellingType) {
                     items.append(room)
                 }
             }
