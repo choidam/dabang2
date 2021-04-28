@@ -71,15 +71,11 @@ class HomeService: HomeServiceType {
     @discardableResult
     func sortRoomList(isIncrease: Bool, selectedRoomTypes: [Int], selectedSellingTypes: [Int]) -> Observable<[RoomModel]> {
         sortItems(isIncrease: isIncrease)
-        
-        let count = items.count
-        items.removeAll()
-        
-        for room in roomItems {
-            if selectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
-                items.append(room)
+
+        for i in 0...11{
+            if selectedRoomTypes.contains(roomItems[i].roomType) && selectedSellingTypes.contains(roomItems[i].sellingType) {
+                items.append(roomItems[i])
             }
-            if items.count == count { break }
         }
         
         return Observable.just(items)
