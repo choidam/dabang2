@@ -89,13 +89,15 @@ class HomeService: HomeServiceType {
     func selectRoomKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [Int], selectedSellingTypes: [Int]) -> (Observable<[RoomModel]>, Bool) {
         sortItems(isIncrease: isIncrease)
         
+        var newRoomItems: [RoomModel] = roomItems
+        
         for room in items {
-            roomItems = roomItems.filter({ $0.identity != room.identity })
+            newRoomItems = newRoomItems.filter({ $0.identity != room.identity })
         }
         
         var hasNext: Bool = true
         
-        if roomItems.count <= 0 {
+        if newRoomItems.count <= 0 {
             hasNext = false
             return (Observable.just(items), hasNext)
         }
@@ -104,7 +106,7 @@ class HomeService: HomeServiceType {
             items.removeAll(where: { $0.roomType == selectIndex })
             
             if items.count < 12 {
-                for room in roomItems {
+                for room in newRoomItems {
                     if selectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
                         if room.roomType != selectIndex {
                             items.append(room)
@@ -129,13 +131,15 @@ class HomeService: HomeServiceType {
     func selectSaleKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [Int] ,selectedSellingTypes: [Int]) -> (Observable<[RoomModel]>, Bool) {
         sortItems(isIncrease: isIncrease)
         
+        var newRoomItems: [RoomModel] = roomItems
+        
         for room in items {
-            roomItems = roomItems.filter({ $0.identity != room.identity })
+            newRoomItems = newRoomItems.filter({ $0.identity != room.identity })
         }
         
         var hasNext: Bool = true
         
-        if roomItems.count <= 0 {
+        if newRoomItems.count <= 0 {
             hasNext = false
             return (Observable.just(items), hasNext)
         }
@@ -144,7 +148,7 @@ class HomeService: HomeServiceType {
             items.removeAll(where: { $0.sellingType == selectIndex })
             
             if items.count < 12 {
-                for room in roomItems {
+                for room in newRoomItems {
                     if selectedSellingTypes.contains(room.sellingType) && selectedRoomTypes.contains(room.roomType) {
                         if room.sellingType != selectIndex {
                             items.append(room)
