@@ -81,12 +81,12 @@ final class HomeViewReactor: Reactor {
         case .getlist:
             let list = service.getRoomList()
             
-            let avg = list.1 // 평균가 데이터
+            let avg = list.1
             averageItem.name = avg.name
             averageItem.monthPrice = avg.monthPrice
             averageItem.yearPrice = avg.yearPrice
             
-            return list.0.map(Mutation.list) // 방 데이터
+            return list.0.map(Mutation.list) 
             
         case .sort(let isIncrease):
             return service.sortRoomList(isIncrease: isIncrease, selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes).map(Mutation.list)
@@ -102,7 +102,7 @@ final class HomeViewReactor: Reactor {
             return list.0.map { Mutation.filterSaleList($0, isSelect: isSelect, selectIndex: selectIndex, hasNext: list.1) }
             
         case .loadMore:
-            let loadmore = service.loadMore(selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes, isIncrease: currentState.isIncrease)
+            let loadmore = service.loadMore(selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes)
             
             if loadmore.1 == false {
                 return .empty()

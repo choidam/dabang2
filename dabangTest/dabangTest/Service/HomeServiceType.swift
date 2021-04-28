@@ -22,5 +22,5 @@ protocol HomeServiceType {
     func selectSaleKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [Int] ,selectedSellingTypes: [Int]) -> (Observable<[RoomModel]>, Bool)
     
     @discardableResult
-    func loadMore(selectedRoomTypes: [Int], selectedSellingTypes: [Int], isIncrease: Bool) -> (Observable<[RoomModel]>, Bool)
+    func loadMore(selectedRoomTypes: [Int], selectedSellingTypes: [Int]) -> (Observable<[RoomModel]>, Bool)
 }

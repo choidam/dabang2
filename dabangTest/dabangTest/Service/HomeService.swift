@@ -170,14 +170,22 @@ class HomeService: HomeServiceType {
     }
     
     @discardableResult
-    func loadMore(selectedRoomTypes: [Int], selectedSellingTypes: [Int], isIncrease: Bool) -> (Observable<[RoomModel]>, Bool){
+    func loadMore(selectedRoomTypes: [Int], selectedSellingTypes: [Int]) -> (Observable<[RoomModel]>, Bool){
         
         var hasNext: Bool = true
         
-        if items.count + 12 <= roomItems.count {
+        let lastRoom = items[items.count-1]
+        var idx: Int = 0
+        for i in 0...roomItems.count-1{
+            if lastRoom.identity == roomItems[i].identity {
+                idx = i
+            }
+        }
+        
+        if items.count + 12 <= roomItems.count && idx+12 <= roomItems.count {
             var addCount = 0
             
-            for index in items.count...roomItems.count-1 {
+            for index in idx...roomItems.count-1 {
                 let room = roomItems[index]
                 
                 if selectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
@@ -187,8 +195,6 @@ class HomeService: HomeServiceType {
                 
                 if addCount >= 12 { break }
             }
-            
-            sortItems(isIncrease: isIncrease)
         } else {
             hasNext = false
         }
