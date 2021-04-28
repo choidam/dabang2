@@ -182,7 +182,7 @@ class HomeService: HomeServiceType {
             }
         }
         
-        if items.count + 12 <= roomItems.count && idx+12 <= roomItems.count {
+        if idx+12 <= roomItems.count {
             var addCount = 0
             
             for index in idx...roomItems.count-1 {
