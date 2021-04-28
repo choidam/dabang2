@@ -184,8 +184,6 @@ extension ApartmentCell {
                 default:
                     self.titleLabel.text = "매매 \(room.priceTitle)"
                 }
-
-                self.titleLabel.text = room.priceTitle
                 
                 self.descriptionLabel.text = room.desc
                 
