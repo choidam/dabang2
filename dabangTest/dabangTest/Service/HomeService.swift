@@ -94,17 +94,14 @@ class HomeService: HomeServiceType {
     @discardableResult
     func selectRoomKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [Int], selectedSellingTypes: [Int]) -> (Observable<[RoomModel]>, Bool) {
         sortItems(isIncrease: isIncrease)
-        let lastRoom = items[items.count-1]
-        var idx = 0
         
-        for index in 0...roomItems.count-1{
-            if lastRoom.identity == roomItems[index].identity {
-                idx = index
-            }
+        for room in items {
+            roomItems = roomItems.filter({ $0.identity != room.identity })
         }
         
         var hasNext: Bool = true
-        if idx+1 >= roomItems.count-1 {
+        
+        if roomItems.count <= 0 {
             hasNext = false
             return (Observable.just(items), hasNext)
         }
@@ -113,8 +110,7 @@ class HomeService: HomeServiceType {
             items.removeAll(where: { $0.roomType == selectIndex })
             
             if items.count < 12 {
-                for index in idx+1...roomItems.count-1 {
-                    let room = roomItems[index]
+                for room in roomItems {
                     if selectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
                         if room.roomType != selectIndex {
                             items.append(room)
@@ -125,9 +121,9 @@ class HomeService: HomeServiceType {
             }
             
         } else {
-            for index in idx+1...roomItems.count-1 {
-                if roomItems[index].roomType == selectIndex {
-                    items.append(roomItems[index])
+            for room in roomItems {
+                if room.roomType == selectIndex {
+                    items.append(room)
                 }
             }
         }
@@ -138,17 +134,14 @@ class HomeService: HomeServiceType {
     @discardableResult
     func selectSaleKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [Int] ,selectedSellingTypes: [Int]) -> (Observable<[RoomModel]>, Bool) {
         sortItems(isIncrease: isIncrease)
-        let lastRoom = items[items.count-1]
-        var idx = 0
         
-        for index in 0...roomItems.count-1{
-            if lastRoom.identity == roomItems[index].identity {
-                idx = index
-            }
+        for room in items {
+            roomItems = roomItems.filter({ $0.identity != room.identity })
         }
         
         var hasNext: Bool = true
-        if idx+1 >= roomItems.count-1 {
+        
+        if roomItems.count <= 0 {
             hasNext = false
             return (Observable.just(items), hasNext)
         }
@@ -157,8 +150,7 @@ class HomeService: HomeServiceType {
             items.removeAll(where: { $0.sellingType == selectIndex })
             
             if items.count < 12 {
-                for index in idx+1...roomItems.count-1 {
-                    let room = roomItems[index]
+                for room in roomItems {
                     if selectedSellingTypes.contains(room.sellingType) && selectedRoomTypes.contains(room.roomType) {
                         if room.sellingType != selectIndex {
                             items.append(room)
@@ -169,9 +161,9 @@ class HomeService: HomeServiceType {
             }
             
         } else {
-            for index in idx+1...roomItems.count-1 {
-                if roomItems[index].sellingType == selectIndex {
-                    items.append(roomItems[index])
+            for room in roomItems {
+                if room.sellingType == selectIndex {
+                    items.append(room)
                 }
             }
         }
