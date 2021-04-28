@@ -124,6 +124,8 @@ class HomeService: HomeServiceType {
             }
         }
         
+        sortItems(isIncrease: isIncrease)
+        
         return (Observable.just(items), hasNext)
     }
     
@@ -166,6 +168,8 @@ class HomeService: HomeServiceType {
             }
         }
         
+        sortItems(isIncrease: isIncrease)
+        
         return (Observable.just(items), hasNext)
     }
     
@@ -195,6 +199,9 @@ class HomeService: HomeServiceType {
                 
                 if addCount >= 12 { break }
             }
+            
+            if addCount < 12 { hasNext = false }
+            
         } else {
             hasNext = false
         }
