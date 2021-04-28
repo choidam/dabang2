@@ -176,7 +176,14 @@ extension RoomCell {
                     break
                 }
 
-                self.titleLabel.text = room.priceTitle
+                switch room.sellingType {
+                case 0:
+                    self.titleLabel.text = "월세 \(room.priceTitle)"
+                case 1:
+                    self.titleLabel.text = "전세 \(room.priceTitle)"
+                default:
+                    self.titleLabel.text = "매매 \(room.priceTitle)"
+                }
                 
                 self.descriptionLabel.text = room.desc
                 
