@@ -103,12 +103,15 @@ class HomeService: HomeServiceType {
             return (Observable.just(items), hasNext)
         }
         
+        var newSelectedRoomTypes = selectedRoomTypes
+        
         if !isSelect {
             items.removeAll(where: { $0.roomType == selectIndex })
+            newSelectedRoomTypes = newSelectedRoomTypes.filter { $0 != selectIndex }
             
             if items.count < 12 {
                 for room in newRoomItems {
-                    if selectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
+                    if newSelectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
                         if room.roomType != selectIndex {
                             items.append(room)
                         }
@@ -118,7 +121,6 @@ class HomeService: HomeServiceType {
             }
             
         } else {
-            var newSelectedRoomTypes = selectedRoomTypes
             newSelectedRoomTypes.append(selectIndex)
             
             for room in newRoomItems {
@@ -150,12 +152,15 @@ class HomeService: HomeServiceType {
             return (Observable.just(items), hasNext)
         }
         
+        var newSelectedSellingTypes = selectedSellingTypes
+        
         if !isSelect {
             items.removeAll(where: { $0.sellingType == selectIndex })
+            newSelectedSellingTypes = newSelectedSellingTypes.filter { $0 != selectIndex }
             
             if items.count < 12 {
                 for room in newRoomItems {
-                    if selectedSellingTypes.contains(room.sellingType) && selectedRoomTypes.contains(room.roomType) {
+                    if newSelectedSellingTypes.contains(room.sellingType) && selectedRoomTypes.contains(room.roomType) {
                         if room.sellingType != selectIndex {
                             items.append(room)
                         }
@@ -165,11 +170,10 @@ class HomeService: HomeServiceType {
             }
             
         } else {
-            var newSelectedSellingTypes = selectedSellingTypes
             newSelectedSellingTypes.append(selectIndex)
             
             for room in roomItems {
-                if selectedSellingTypes.contains(room.roomType) && newSelectedSellingTypes.contains(room.sellingType) {
+                if selectedRoomTypes.contains(room.roomType) && newSelectedSellingTypes.contains(room.sellingType) {
                     items.append(room)
                 }
             }
