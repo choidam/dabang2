@@ -124,14 +124,18 @@ extension AverageCell {
     private func bindState(reactor: AverageCellReactor){
         
         reactor.state
-            .map { $0.average }
-            .subscribe(onNext: { [weak self] average in
-                guard let self = self else { return }
-                
-                self.addressLabel.text = average.name
-                self.averageMonthPriceLabel.text = average.monthPrice
-                self.averageLeaseRentPriceLabel.text = average.yearPrice
-            })
+            .map { $0.name }
+            .bind(to: addressLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.yearPrice }
+            .bind(to: averageLeaseRentPriceLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.monthPrice }
+            .bind(to: averageMonthPriceLabel.rx.text)
             .disposed(by: disposeBag)
         
     }

@@ -9,7 +9,7 @@ import Foundation
 import RxDataSources
 
 // MARK:- AverageModel
-struct AverageModel: Equatable, IdentifiableType {
+struct AverageModel {
     let identity = UUID().uuidString
     
     var monthPrice: String

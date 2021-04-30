@@ -15,13 +15,19 @@ class AverageCellReactor: Reactor {
     typealias Action = NoAction
     
     struct State {
-        var average: AverageModel
+        var name: String
+        var yearPrice: String
+        var monthPrice: String
     }
     
     var initialState: State
     
-    init(average: AverageModel) {
-        initialState = State(average: average)
+    init(name: String, yearPrice: String, monthPrice: String) {
+        initialState = State(name: name, yearPrice: yearPrice, monthPrice: monthPrice)
+        
+        initialState.name = name
+        initialState.yearPrice = yearPrice
+        initialState.monthPrice = monthPrice
     }
     
 }

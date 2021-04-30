@@ -9,7 +9,7 @@ import Foundation
 import RxDataSources
 
 // MARK: - RoomModel
-struct RoomModel: Equatable, IdentifiableType {
+struct RoomModel {
     let identity = UUID().uuidString
     
     var desc: String

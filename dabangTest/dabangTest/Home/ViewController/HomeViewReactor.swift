@@ -187,7 +187,7 @@ final class HomeViewReactor: Reactor {
                         roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: list[i])))
                     }
                 } else if i == 12 {
-                    roomItems.append(RoomSectionItem.average(AverageCellReactor(average: self.averageItem)))
+                    roomItems.append(RoomSectionItem.average(AverageCellReactor(name: averageItem.name, yearPrice: averageItem.yearPrice, monthPrice: averageItem.monthPrice)))
                 } else {
                     if list[i-1].roomType == 0 || list[i-1].roomType == 1 {
                         roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[i-1])))
