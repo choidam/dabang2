@@ -185,26 +185,29 @@ final class HomeViewReactor: Reactor {
         if list.count >= 12 {
             for i in 0...list.count {
                 if i<12 {
-                    if list[i].roomType == 0 || list[i].roomType == 1 {
+                    switch list[i].roomType {
+                    case .oneRoom, .twoRoom:
                         roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[i])))
-                    } else {
+                    default:
                         roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: list[i])))
                     }
                 } else if i == 12 {
                     roomItems.append(RoomSectionItem.average(AverageCellReactor(name: averageItem.name, yearPrice: averageItem.yearPrice, monthPrice: averageItem.monthPrice)))
                 } else {
-                    if list[i-1].roomType == 0 || list[i-1].roomType == 1 {
+                    switch list[i-1].roomType {
+                    case .oneRoom, .twoRoom:
                         roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[i-1])))
-                    } else {
+                    default:
                         roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: list[i-1])))
                     }
                 }
             }
         } else {
             for room in list {
-                if room.roomType == 0 || room.roomType == 1 {
+                switch room.roomType {
+                case .oneRoom, .twoRoom:
                     roomItems.append(RoomSectionItem.room(RoomCellReactor(room: room)))
-                } else {
+                default:
                     roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: room)))
                 }
             }

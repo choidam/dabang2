@@ -163,27 +163,8 @@ extension RoomCell {
             .subscribe(onNext: { [weak self] room in
                 guard let self = self else { return }
                 
-                switch room.roomType {
-                case 0:
-                    self.roomTypeLabel.text = "원룸"
-                case 1:
-                    self.roomTypeLabel.text = "투쓰리룸"
-                case 2:
-                    self.roomTypeLabel.text = "오피스텔"
-                case 3:
-                    self.roomTypeLabel.text = "아파트"
-                default:
-                    break
-                }
-
-                switch room.sellingType {
-                case 0:
-                    self.titleLabel.text = "월세 \(room.priceTitle)"
-                case 1:
-                    self.titleLabel.text = "전세 \(room.priceTitle)"
-                default:
-                    self.titleLabel.text = "매매 \(room.priceTitle)"
-                }
+                self.roomTypeLabel.text = room.roomTypeStr
+                self.titleLabel.text = "\(room.sellingTypeStr) \(room.priceTitle)"
                 
                 self.descriptionLabel.text = room.desc
                 

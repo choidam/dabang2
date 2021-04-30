@@ -6,12 +6,9 @@
 //
 
 import Foundation
-import RxDataSources
 
 // MARK:- AverageModel
 struct AverageModel {
-    let identity = UUID().uuidString
-    
     var monthPrice: String
     var name: String
     var yearPrice: String

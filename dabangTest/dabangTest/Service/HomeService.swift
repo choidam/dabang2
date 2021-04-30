@@ -50,7 +50,7 @@ class HomeService: HomeServiceType {
                         }
                     }
                     
-                    self.roomItems.append(RoomModel(desc: room.desc, isCheck: room.isCheck, priceTitle: room.priceTitle, price: price, roomType: room.roomType, sellingType: room.sellingType, hashTags: room.hashTags, imgURL: room.imgURL))
+                    self.roomItems.append(RoomModel(desc: room.desc, isCheck: room.isCheck, priceTitle: room.priceTitle, price: price, roomTypeInt: room.roomType, sellingTypeInt: room.sellingType, hashTags: room.hashTags, imgURL: room.imgURL))
                     roomItems.sort(by: { $0.price < $1.price })
                 }
                 
@@ -80,7 +80,7 @@ class HomeService: HomeServiceType {
         items.removeAll()
         
         for room in roomItems {
-            if selectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
+            if selectedRoomTypes.contains(room.roomTypeInt) && selectedSellingTypes.contains(room.sellingTypeInt) {
                 items.append(room)
             }
             if items.count == count { break }
@@ -109,25 +109,25 @@ class HomeService: HomeServiceType {
         var newSelectedRoomTypes = selectedRoomTypes
         
         if !isSelect {
-            items.removeAll(where: { $0.roomType == selectIndex })
+            items.removeAll(where: { $0.roomTypeInt == selectIndex })
             newSelectedRoomTypes = newSelectedRoomTypes.filter { $0 != selectIndex }
-            
+
             if items.count < 12 {
                 for room in newRoomItems {
-                    if newSelectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
-                        if room.roomType != selectIndex {
+                    if newSelectedRoomTypes.contains(room.roomTypeInt) && selectedSellingTypes.contains(room.sellingTypeInt) {
+                        if room.roomTypeInt != selectIndex {
                             items.append(room)
                         }
                     }
                     if items.count >= 12 { break }
                 }
             }
-            
+
         } else {
             newSelectedRoomTypes.append(selectIndex)
-            
+
             for room in newRoomItems {
-                if newSelectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType){
+                if newSelectedRoomTypes.contains(room.roomTypeInt) && selectedSellingTypes.contains(room.sellingTypeInt){
                     items.append(room)
                 }
             }
@@ -158,25 +158,25 @@ class HomeService: HomeServiceType {
         var newSelectedSellingTypes = selectedSellingTypes
         
         if !isSelect {
-            items.removeAll(where: { $0.sellingType == selectIndex })
+            items.removeAll(where: { $0.sellingTypeInt == selectIndex })
             newSelectedSellingTypes = newSelectedSellingTypes.filter { $0 != selectIndex }
-            
+
             if items.count < 12 {
                 for room in newRoomItems {
-                    if newSelectedSellingTypes.contains(room.sellingType) && selectedRoomTypes.contains(room.roomType) {
-                        if room.sellingType != selectIndex {
+                    if newSelectedSellingTypes.contains(room.sellingTypeInt) && selectedRoomTypes.contains(room.roomTypeInt) {
+                        if room.sellingTypeInt != selectIndex {
                             items.append(room)
                         }
                     }
                     if items.count >= 12 { break }
                 }
             }
-            
+
         } else {
             newSelectedSellingTypes.append(selectIndex)
-            
+
             for room in roomItems {
-                if selectedRoomTypes.contains(room.roomType) && newSelectedSellingTypes.contains(room.sellingType) {
+                if selectedRoomTypes.contains(room.roomTypeInt) && newSelectedSellingTypes.contains(room.sellingTypeInt) {
                     items.append(room)
                 }
             }
@@ -202,20 +202,20 @@ class HomeService: HomeServiceType {
         
         if idx+12 <= roomItems.count {
             var addCount = 0
-            
+
             for index in idx...roomItems.count-1 {
                 let room = roomItems[index]
-                
-                if selectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
+
+                if selectedRoomTypes.contains(room.roomTypeInt) && selectedSellingTypes.contains(room.sellingTypeInt) {
                     addCount += 1
                     items.append(room)
                 }
-                
+
                 if addCount >= 12 { break }
             }
-            
+
             if addCount < 12 { hasNext = false }
-            
+
         } else {
             hasNext = false
         }

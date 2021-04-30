@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import RxSwift
-import RxDataSources
 
 // MARK: - RoomResponseString
 struct RoomResponseString: Codable {
