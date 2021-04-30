@@ -24,7 +24,7 @@ final class HomeViewReactor: Reactor {
         case initList([RoomModel], AverageModel)
         case list([RoomModel])
         case sort([RoomModel], isIncrease: Bool)
-        case filterRoomList([RoomModel], isSelect: Bool, selectIndex: Int, hasNext: Bool)
+        case filterRoomList(([RoomModel], Bool), isSelect: Bool, selectIndex: Int)
         case filterSaleList([RoomModel], isSelect: Bool, selectIndex: Int, hasNext: Bool)
         case errorMsg
         
@@ -88,9 +88,13 @@ final class HomeViewReactor: Reactor {
             return service.sortRoomList(isIncrease: isIncrease, selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes).map(Mutation.list)
             
         case .selectRoom(let selectIndex, let isSelect, let isIncrease):
-            let list = service.selectRoomKind(selectIndex: selectIndex, isSelect: isSelect, isIncrease: isIncrease, selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes)
+            let request = service.selectRoomKind(selectIndex: selectIndex, isSelect: isSelect, isIncrease: isIncrease, selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes)
             
-            return list.0.map { Mutation.filterRoomList($0, isSelect: isSelect, selectIndex: selectIndex, hasNext: list.1) }
+            return request.map{ Mutation.filterRoomList($0, isSelect: isSelect, selectIndex: selectIndex) }
+            
+//            let list = service.selectRoomKind(selectIndex: selectIndex, isSelect: isSelect, isIncrease: isIncrease, selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes)
+//
+//            return list.0.map { Mutation.filterRoomList($0, isSelect: isSelect, selectIndex: selectIndex, hasNext: list.1) }
  
         case .selectSale(let selectIndex, let isSelect, let isIncrease):
             let list = service.selectSaleKind(selectIndex: selectIndex, isSelect: isSelect, isIncrease: isIncrease, selectedRoomTypes: currentState.selectedSellingTypes, selectedSellingTypes: currentState.selectedSellingTypes)
@@ -129,7 +133,7 @@ final class HomeViewReactor: Reactor {
             setSectionItem(list: list)
             state.isIncrease = isIncrease
             
-        case .filterRoomList(let list, let isSelect, let selectIndex, let hasNext):
+        case .filterRoomList(let request, let isSelect, let selectIndex):
             if isSelect {
                 state.roomTypeCount += 1
                 state.selectedRoomTypes.append(selectIndex)
@@ -141,6 +145,9 @@ final class HomeViewReactor: Reactor {
                 state.roomTypeCount -= 1
                 state.selectedRoomTypes = state.selectedRoomTypes.filter { $0 != selectIndex }
             }
+            
+            let list = request.0
+            let hasNext = request.1
             
             if !hasNext {
                 state.state = .errorMsg

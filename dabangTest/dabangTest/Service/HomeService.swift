@@ -90,7 +90,7 @@ class HomeService: HomeServiceType {
     }
     
     @discardableResult
-    func selectRoomKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [Int], selectedSellingTypes: [Int]) -> (Observable<[RoomModel]>, Bool) {
+    func selectRoomKind(selectIndex: Int, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [Int], selectedSellingTypes: [Int]) -> Observable<([RoomModel], Bool)> {
         sortItems(isIncrease: isIncrease)
         
         var newRoomItems: [RoomModel] = roomItems
@@ -103,7 +103,10 @@ class HomeService: HomeServiceType {
         
         if newRoomItems.count <= 0 {
             hasNext = false
-            return (Observable.just(items), hasNext)
+            return Observable<Any>.combineLatest(
+                Observable.just(items),
+                Observable.just(hasNext)
+            )
         }
         
         var newSelectedRoomTypes = selectedRoomTypes
@@ -135,7 +138,10 @@ class HomeService: HomeServiceType {
         
         sortItems(isIncrease: isIncrease)
         
-        return (Observable.just(items), hasNext)
+        return Observable<Any>.combineLatest(
+            Observable.just(items),
+            Observable.just(hasNext)
+        )
     }
     
     @discardableResult
