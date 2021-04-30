@@ -21,6 +21,7 @@ final class HomeViewReactor: Reactor {
     }
     
     enum Mutation {
+        case initList([RoomModel], AverageModel)
         case list([RoomModel])
         case sort([RoomModel], isIncrease: Bool)
         case filterRoomList([RoomModel], isSelect: Bool, selectIndex: Int, hasNext: Bool)
@@ -29,6 +30,7 @@ final class HomeViewReactor: Reactor {
         
         var bindMutation: BindMutation {
             switch self {
+            case .initList: return .initList
             case .list: return .list
             case .sort: return .sort
             case .filterRoomList: return .filterRoomList
@@ -40,6 +42,7 @@ final class HomeViewReactor: Reactor {
     
     enum BindMutation {
         case initialState
+        case initList
         case list
         case sort
         case filterRoomList
@@ -79,14 +82,7 @@ final class HomeViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .getlist:
-            let list = service.getRoomList()
-            
-            let avg = list.1
-            averageItem.name = avg.name
-            averageItem.monthPrice = avg.monthPrice
-            averageItem.yearPrice = avg.yearPrice
-            
-            return list.0.map(Mutation.list) 
+            return service.getRoomList().map(Mutation.initList)
             
         case .sort(let isIncrease):
             return service.sortRoomList(isIncrease: isIncrease, selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes).map(Mutation.list)
@@ -117,6 +113,14 @@ final class HomeViewReactor: Reactor {
         state.state = mutation.bindMutation
         
         switch mutation {
+        case .initList(let list, let avg):
+            averageItem.name = avg.name
+            averageItem.monthPrice = avg.monthPrice
+            averageItem.yearPrice = avg.yearPrice
+            
+            setSectionItem(list: list)
+            state.sections = [.section(roomItems)]
+        
         case .list(let list):
             setSectionItem(list: list)
             state.sections = [.section(roomItems)]

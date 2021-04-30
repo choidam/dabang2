@@ -16,7 +16,7 @@ class HomeService: HomeServiceType {
     var items: [RoomModel] = []
     
     @discardableResult
-    func getRoomList() -> (Observable<[RoomModel]>, AverageModel) {
+    func getRoomList() -> Observable<([RoomModel], AverageModel)> {
         var averageItem = AverageModel(monthPrice: "", name: "", yearPrice: "")
         
         if let filepath = Bundle.main.path(forResource: "RoomListData", ofType: "txt") {
@@ -65,7 +65,10 @@ class HomeService: HomeServiceType {
             print("roadTextFile filepath error")
         }
         
-        return (Observable.just(items), averageItem)
+        return Observable.combineLatest(
+            Observable.just(items),
+            Observable.just(averageItem)
+        )
     }
     
     @discardableResult

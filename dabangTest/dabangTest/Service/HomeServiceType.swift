@@ -10,8 +10,8 @@ import RxSwift
 
 protocol HomeServiceType {
     @discardableResult
-    func getRoomList() -> (Observable<[RoomModel]>, AverageModel)
-
+    func getRoomList() -> Observable<([RoomModel], AverageModel)>
+    
     @discardableResult
     func sortRoomList(isIncrease: Bool, selectedRoomTypes: [Int], selectedSellingTypes: [Int]) -> Observable<[RoomModel]>
     
