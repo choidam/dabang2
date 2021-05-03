@@ -16,6 +16,14 @@ class ApartmentCell: BaseTableViewCell<ApartmentCellReactor> {
     static let identifier = "apartmentCell"
     
     // MARK:- UI
+    let leftView = UIView().then {
+        $0.backgroundColor = .white
+    }
+    
+    let rightView = UIView().then {
+        $0.backgroundColor = .white
+    }
+    
     let titleLabel = UILabel().then {
         $0.textColor = .black
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -82,41 +90,64 @@ class ApartmentCell: BaseTableViewCell<ApartmentCellReactor> {
 
 extension ApartmentCell {
     private func addView(){
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(roomTypeLabel)
-        contentView.addSubview(descriptionLabel)
-        contentView.addSubview(roomImageView)
+        contentView.addSubview(leftView)
+        leftView.addSubview(roomImageView)
+        leftView.addSubview(selectImageView)
+        
+        contentView.addSubview(rightView)
+        rightView.addSubview(titleLabel)
+        rightView.addSubview(roomTypeLabel)
+        rightView.addSubview(descriptionLabel)
+        
         contentView.addSubview(tag1)
         contentView.addSubview(tag2)
         contentView.addSubview(tag3)
         contentView.addSubview(tag4)
+        
         contentView.addSubview(divideView)
-        contentView.addSubview(selectImageView)
+        
     }
     
     private func initLayout(){
-        titleLabel.snp.makeConstraints{
-            $0.leading.equalTo(173)
-            $0.top.equalTo(18)
-            $0.bottom.equalTo(-79)
-        }
-        
-        roomTypeLabel.snp.makeConstraints{
-            $0.leading.equalTo(172)
-            $0.top.equalTo(titleLabel.snp.bottom).offset(4)
+        leftView.snp.makeConstraints{
+            $0.leading.top.bottom.equalToSuperview()
+            $0.width.equalTo(173)
+            $0.height.equalTo(113)
         }
         
         roomImageView.snp.makeConstraints{
-            $0.leading.equalTo(13)
-            $0.top.equalTo(14)
+            $0.leading.equalTo(leftView.snp.leading).offset(13)
+            $0.top.equalTo(leftView.snp.top).offset(14)
             $0.width.equalTo(126)
             $0.height.equalTo(84)
         }
         
+        selectImageView.snp.makeConstraints{
+            $0.width.height.equalTo(18)
+            $0.top.equalTo(roomImageView.snp.top).offset(4)
+            $0.leading.equalTo(roomImageView.snp.leading).offset(4)
+        }
+        
+        rightView.snp.makeConstraints{
+            $0.leading.equalTo(leftView.snp.trailing)
+            $0.top.bottom.trailing.equalToSuperview()
+        }
+        
+        
+        titleLabel.snp.makeConstraints{
+            $0.leading.equalTo(rightView.snp.leading)
+            $0.top.equalTo(rightView.snp.top).offset(18)
+        }
+        
+        roomTypeLabel.snp.makeConstraints{
+            $0.leading.equalTo(rightView.snp.leading)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(4)
+        }
+        
         descriptionLabel.snp.makeConstraints{
-            $0.leading.equalTo(172)
+            $0.leading.equalTo(rightView.snp.leading)
             $0.top.equalTo(roomTypeLabel.snp.bottom)
-            $0.trailing.equalTo(-10)
+            $0.trailing.equalTo(rightView.snp.trailing).offset(-10)
         }
         
         tag1.makeHashTag()
@@ -147,13 +178,6 @@ extension ApartmentCell {
             $0.leading.trailing.bottom.equalTo(0)
             $0.height.equalTo(1)
         }
-        
-        selectImageView.snp.makeConstraints{
-            $0.width.height.equalTo(18)
-            $0.top.equalTo(18)
-            $0.leading.equalTo(17)
-        }
-        
     }
         
     private func bindState(reactor: ApartmentCellReactor){
