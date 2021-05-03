@@ -24,8 +24,8 @@ final class HomeViewReactor: Reactor {
         case initList([RoomModel], AverageModel)
         case list([RoomModel])
         case sort([RoomModel], isIncrease: Bool)
-        case filterRoomList(([RoomModel], Bool), isSelect: Bool, selectIndex: RoomType)
-        case filterSaleList(([RoomModel], Bool), isSelect: Bool, selectIndex: SellingType)
+        case filterRoomList([RoomModel], isSelect: Bool, selectIndex: RoomType)
+        case filterSaleList([RoomModel], isSelect: Bool, selectIndex: SellingType)
         case errorMsg
         
         var bindMutation: BindMutation {
@@ -129,7 +129,7 @@ final class HomeViewReactor: Reactor {
             setSectionItem(list: list)
             state.isIncrease = isIncrease
             
-        case .filterRoomList(let request, let isSelect, let selectIndex):
+        case .filterRoomList(let list, let isSelect, let selectIndex):
             if isSelect {
                 state.roomTypeCount += 1
                 state.selectedRoomTypes.append(selectIndex)
@@ -142,18 +142,10 @@ final class HomeViewReactor: Reactor {
                 state.selectedRoomTypes = state.selectedRoomTypes.filter { $0 != selectIndex }
             }
             
-            let list = request.0
-            let hasNext = request.1
-            
-            if !hasNext {
-                state.state = .errorMsg
-                return state
-            }
-            
             setSectionItem(list: list)
             state.sections = [.section(roomItems)]
             
-        case .filterSaleList(let request, let isSelect, let selectIndex):
+        case .filterSaleList(let list, let isSelect, let selectIndex):
             if isSelect {
                 state.saleTypeCount += 1
                 state.selectedSellingTypes.append(selectIndex)
@@ -164,14 +156,6 @@ final class HomeViewReactor: Reactor {
                 }
                 state.saleTypeCount -= 1
                 state.selectedSellingTypes = state.selectedSellingTypes.filter { $0 != selectIndex }
-            }
-            
-            let list = request.0
-            let hasNext = request.1
-            
-            if !hasNext {
-                state.state = .errorMsg
-                return state
             }
             
             setSectionItem(list: list)

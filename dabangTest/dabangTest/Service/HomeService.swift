@@ -90,113 +90,49 @@ class HomeService: HomeServiceType {
     }
     
     @discardableResult
-    func selectRoomKind(selectRoomType: RoomType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> Observable<([RoomModel], Bool)> {
+    func selectRoomKind(selectRoomType: RoomType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> Observable<[RoomModel]> {
         sortItems(isIncrease: isIncrease)
-        
-        var newRoomItems: [RoomModel] = roomItems
-        
-        for room in items {
-            newRoomItems = newRoomItems.filter({ $0.identity != room.identity })
-        }
-        
-        var hasNext: Bool = true
-        
-        if newRoomItems.count <= 0 {
-            hasNext = false
-            return Observable<Any>.combineLatest(
-                Observable.just(items),
-                Observable.just(hasNext)
-            )
-        }
-        
+    
         var newSelectedRoomTypes = selectedRoomTypes
         
-        if !isSelect {
-            items.removeAll(where: { $0.roomType == selectRoomType })
-            newSelectedRoomTypes = newSelectedRoomTypes.filter { $0 != selectRoomType }
-
-            if items.count < 12 {
-                for room in newRoomItems {
-                    if newSelectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
-                        if room.roomType != selectRoomType {
-                            items.append(room)
-                        }
-                    }
-                    if items.count >= 12 { break }
-                }
-            }
-
-        } else {
+        if isSelect {
             newSelectedRoomTypes.append(selectRoomType)
-
-            for room in newRoomItems {
-                if newSelectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType){
-                    items.append(room)
-                }
+        } else {
+            newSelectedRoomTypes = newSelectedRoomTypes.filter({ $0 != selectRoomType })
+        }
+        
+        items.removeAll()
+        
+        for room in roomItems {
+            if newSelectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
+                items.append(room)
             }
         }
         
-        sortItems(isIncrease: isIncrease)
-        
-        return Observable<Any>.combineLatest(
-            Observable.just(items),
-            Observable.just(hasNext)
-        )
+        return Observable.just(items)
     }
     
     @discardableResult
-    func selectSaleKind(selectSellingType: SellingType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType] ,selectedSellingTypes: [SellingType]) -> Observable<([RoomModel], Bool)> {
+    func selectSaleKind(selectSellingType: SellingType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType] ,selectedSellingTypes: [SellingType]) -> Observable<[RoomModel]> {
         sortItems(isIncrease: isIncrease)
-        
-        var newRoomItems: [RoomModel] = roomItems
-        
-        for room in items {
-            newRoomItems = newRoomItems.filter({ $0.identity != room.identity })
-        }
-        
-        var hasNext: Bool = true
-        
-        if newRoomItems.count <= 0 {
-            hasNext = false
-            return Observable.combineLatest(
-                Observable.just(items),
-                Observable.just(hasNext)
-            )
-        }
         
         var newSelectedSellingTypes = selectedSellingTypes
         
-        if !isSelect {
-            items.removeAll(where: { $0.sellingType == selectSellingType })
-            newSelectedSellingTypes = newSelectedSellingTypes.filter { $0 != selectSellingType }
-
-            if items.count < 12 {
-                for room in newRoomItems {
-                    if newSelectedSellingTypes.contains(room.sellingType) && selectedRoomTypes.contains(room.roomType) {
-                        if room.sellingType != selectSellingType {
-                            items.append(room)
-                        }
-                    }
-                    if items.count >= 12 { break }
-                }
-            }
-
-        } else {
+        if isSelect {
             newSelectedSellingTypes.append(selectSellingType)
-
-            for room in roomItems {
-                if selectedRoomTypes.contains(room.roomType) && newSelectedSellingTypes.contains(room.sellingType) {
-                    items.append(room)
-                }
-            }
+        } else {
+            newSelectedSellingTypes = newSelectedSellingTypes.filter({ $0 != selectSellingType })
         }
         
-        sortItems(isIncrease: isIncrease)
+        items.removeAll()
         
-        return Observable.combineLatest(
-            Observable.just(items),
-            Observable.just(hasNext)
-        )
+        for room in roomItems {
+            if selectedRoomTypes.contains(room.roomType) && newSelectedSellingTypes.contains(room.sellingType) {
+                items.append(room)
+            }
+        }
+
+        return Observable.just(items)
     }
     
     @discardableResult

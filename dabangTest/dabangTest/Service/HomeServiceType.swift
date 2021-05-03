@@ -16,10 +16,10 @@ protocol HomeServiceType {
     func sortRoomList(isIncrease: Bool, selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> Observable<[RoomModel]>
     
     @discardableResult
-    func selectRoomKind(selectRoomType: RoomType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> Observable<([RoomModel], Bool)>
+    func selectRoomKind(selectRoomType: RoomType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> Observable<[RoomModel]>
     
     @discardableResult
-    func selectSaleKind(selectSellingType: SellingType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType] ,selectedSellingTypes: [SellingType]) -> Observable<([RoomModel], Bool)>
+    func selectSaleKind(selectSellingType: SellingType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType] ,selectedSellingTypes: [SellingType]) -> Observable<[RoomModel]>
     
     @discardableResult
     func loadMore(selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> (Observable<[RoomModel]>, Bool)
