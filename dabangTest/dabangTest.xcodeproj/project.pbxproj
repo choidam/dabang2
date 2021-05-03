@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		6603F378664409936905A0EC /* Pods_dabangTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76D27ED2089DBE6A9B986E8E /* Pods_dabangTest.framework */; };
+		ED255B71263F9045008C2423 /* RoomType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED255B70263F9045008C2423 /* RoomType.swift */; };
+		ED255B74263F904D008C2423 /* SellingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED255B73263F904D008C2423 /* SellingType.swift */; };
 		ED56BDBE26313ABD00EE4DD6 /* UIScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED56BDBD26313ABD00EE4DD6 /* UIScrollView+Extensions.swift */; };
 		ED56BDC9263161E400EE4DD6 /* RoomListData.txt in Resources */ = {isa = PBXBuildFile; fileRef = ED56BDC8263161E400EE4DD6 /* RoomListData.txt */; };
 		ED7E68A82629338A0016BE4E /* RoomSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7E68A72629338A0016BE4E /* RoomSection.swift */; };
@@ -45,6 +47,8 @@
 		327C7DB91F356C95BD27FB21 /* Pods-dabangTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dabangTest.release.xcconfig"; path = "Target Support Files/Pods-dabangTest/Pods-dabangTest.release.xcconfig"; sourceTree = "<group>"; };
 		693B1246F8ECA040A46D38E2 /* Pods-dabangTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dabangTest.debug.xcconfig"; path = "Target Support Files/Pods-dabangTest/Pods-dabangTest.debug.xcconfig"; sourceTree = "<group>"; };
 		76D27ED2089DBE6A9B986E8E /* Pods_dabangTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_dabangTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ED255B70263F9045008C2423 /* RoomType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomType.swift; sourceTree = "<group>"; };
+		ED255B73263F904D008C2423 /* SellingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellingType.swift; sourceTree = "<group>"; };
 		ED56BDBD26313ABD00EE4DD6 /* UIScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extensions.swift"; sourceTree = "<group>"; };
 		ED56BDC8263161E400EE4DD6 /* RoomListData.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RoomListData.txt; sourceTree = "<group>"; };
 		ED7E68A72629338A0016BE4E /* RoomSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomSection.swift; sourceTree = "<group>"; };
@@ -193,6 +197,8 @@
 				ED82DF952627D94500DDE880 /* Room.swift */,
 				EDD4E855262EB5E7007008B6 /* RoomModel.swift */,
 				EDD4E858262EB5EE007008B6 /* AverageModel.swift */,
+				ED255B70263F9045008C2423 /* RoomType.swift */,
+				ED255B73263F904D008C2423 /* SellingType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -333,12 +339,14 @@
 				ED82DF5E2627D30600DDE880 /* SceneDelegate.swift in Sources */,
 				ED82DF962627D94500DDE880 /* Room.swift in Sources */,
 				ED82DFA72628048C00DDE880 /* RoomCell.swift in Sources */,
+				ED255B71263F9045008C2423 /* RoomType.swift in Sources */,
 				EDAB76AA2632547500005240 /* ApartmentCell.swift in Sources */,
 				ED82DF9B2627DB1800DDE880 /* HomeViewReactor.swift in Sources */,
 				EDF7FF57262D5D1A00C4DC7D /* RoomCellReactor.swift in Sources */,
 				EDF7FF5A262D5E4800C4DC7D /* AverageCellReactor.swift in Sources */,
 				ED7E68A82629338A0016BE4E /* RoomSection.swift in Sources */,
 				ED56BDBE26313ABD00EE4DD6 /* UIScrollView+Extensions.swift in Sources */,
+				ED255B74263F904D008C2423 /* SellingType.swift in Sources */,
 				EDAB76AD2632548C00005240 /* ApartmentCellReactor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

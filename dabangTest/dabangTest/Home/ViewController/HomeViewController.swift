@@ -246,7 +246,7 @@ extension HomeViewController {
         
         oneRoomButton.rx.tap
             .filter { !self.oneRoomButton.isSelected || reactor.currentState.roomTypeCount > 1 } // TODO: ㄲㄹ끔하게
-            .map { Reactor.Action.selectRoom(selectIndex: self.oneRoomButton.tag, isSelect: !self.oneRoomButton.isSelected, isIncrease: self.sortPriceButton.isSelected)}
+            .map { Reactor.Action.selectRoom(selectIndex: RoomType(value: self.oneRoomButton.tag)!, isSelect: !self.oneRoomButton.isSelected, isIncrease: self.sortPriceButton.isSelected)}
             .do(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 
@@ -260,7 +260,7 @@ extension HomeViewController {
         
         twoRoomButton.rx.tap
             .filter { !self.twoRoomButton.isSelected || reactor.currentState.roomTypeCount > 1 }
-            .map { Reactor.Action.selectRoom(selectIndex: self.twoRoomButton.tag, isSelect: !self.twoRoomButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
+            .map { Reactor.Action.selectRoom(selectIndex: RoomType(value: self.twoRoomButton.tag)!, isSelect: !self.twoRoomButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
             .do(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 
@@ -274,7 +274,7 @@ extension HomeViewController {
         
         officehotelButton.rx.tap
             .filter { !self.officehotelButton.isSelected || reactor.currentState.roomTypeCount > 1 }
-            .map { Reactor.Action.selectRoom(selectIndex: self.officehotelButton.tag, isSelect: !self.officehotelButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
+            .map { Reactor.Action.selectRoom(selectIndex: RoomType(value: self.officehotelButton.tag)!, isSelect: !self.officehotelButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
             .do(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 
@@ -288,7 +288,7 @@ extension HomeViewController {
         
         apartmentButton.rx.tap
             .filter { !self.apartmentButton.isSelected || reactor.currentState.roomTypeCount > 1 }
-            .map { Reactor.Action.selectRoom(selectIndex: self.apartmentButton.tag, isSelect: !self.apartmentButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
+            .map { Reactor.Action.selectRoom(selectIndex: RoomType(value: self.apartmentButton.tag)!, isSelect: !self.apartmentButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
             .do(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 
@@ -303,7 +303,7 @@ extension HomeViewController {
         
         monthlyRentButton.rx.tap
             .filter { !self.monthlyRentButton.isSelected || reactor.currentState.saleTypeCount > 1 }
-            .map { Reactor.Action.selectSale(selectIndex: self.monthlyRentButton.tag, isSelect: !self.monthlyRentButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
+            .map { Reactor.Action.selectSale(selectIndex: SellingType(value: self.monthlyRentButton.tag)!, isSelect: !self.monthlyRentButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
             .do(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 
@@ -317,7 +317,7 @@ extension HomeViewController {
         
         leaseRentButton.rx.tap
             .filter { !self.leaseRentButton.isSelected || reactor.currentState.saleTypeCount > 1 }
-            .map { Reactor.Action.selectSale(selectIndex: self.leaseRentButton.tag, isSelect: !self.leaseRentButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
+            .map { Reactor.Action.selectSale(selectIndex: SellingType(value: self.leaseRentButton.tag)!, isSelect: !self.leaseRentButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
             .do(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 
@@ -331,7 +331,7 @@ extension HomeViewController {
         
         saleButton.rx.tap
             .filter { !self.saleButton.isSelected || reactor.currentState.saleTypeCount > 1 }
-            .map { Reactor.Action.selectSale(selectIndex: self.saleButton.tag, isSelect: !self.saleButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
+            .map { Reactor.Action.selectSale(selectIndex: SellingType(value: self.saleButton.tag)!, isSelect: !self.saleButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
             .do(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 

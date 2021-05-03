@@ -163,8 +163,8 @@ extension RoomCell {
             .subscribe(onNext: { [weak self] room in
                 guard let self = self else { return }
                 
-                self.roomTypeLabel.text = room.roomTypeStr
-                self.titleLabel.text = "\(room.sellingTypeStr) \(room.priceTitle)"
+                self.roomTypeLabel.text = room.roomType.roomType
+                self.titleLabel.text = "\(room.sellingType.sellingType) \(room.priceTitle)"
                 
                 self.descriptionLabel.text = room.desc
                 
