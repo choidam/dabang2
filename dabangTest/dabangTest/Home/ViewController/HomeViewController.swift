@@ -256,7 +256,7 @@ extension HomeViewController {
                 button.makeSelect()
                 self?.scrollToTop()
             })
-            .map { Reactor.Action.selectRoom(selectIndex: RoomType(value: $0.tag)!, isSelect: $0.isSelected, isIncrease: self.sortPriceButton.isSelected) }
+            .map { Reactor.Action.selectRoom(selectIndex: RoomType(value: $0.tag)!, isSelect: $0.isSelected) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -271,7 +271,7 @@ extension HomeViewController {
                 button.makeSelect()
                 self?.scrollToTop()
             })
-            .map { Reactor.Action.selectSale(selectIndex: SellingType(value: $0.tag)!, isSelect: $0.isSelected, isIncrease: self.sortPriceButton.isSelected) }
+            .map { Reactor.Action.selectSale(selectIndex: SellingType(value: $0.tag)!, isSelect: $0.isSelected) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         

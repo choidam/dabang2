@@ -73,6 +73,7 @@ class HomeService: HomeServiceType {
     @discardableResult
     func selectRoomKind(selectRoomType: RoomType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> Observable<[Room]> {
         sortItems(isIncrease: isIncrease)
+        print("increase \(isIncrease)")
     
         var newSelectedRoomTypes = selectedRoomTypes
         
