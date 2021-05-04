@@ -244,102 +244,34 @@ extension HomeViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        oneRoomButton.rx.tap
-            .filter { !self.oneRoomButton.isSelected || reactor.currentState.roomTypeCount > 1 } // TODO: ㄲㄹ끔하게
-            .map { Reactor.Action.selectRoom(selectIndex: RoomType(value: self.oneRoomButton.tag)!, isSelect: !self.oneRoomButton.isSelected, isIncrease: self.sortPriceButton.isSelected)}
-            .do(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                
-                self.oneRoomButton.isSelected = !self.oneRoomButton.isSelected
-                self.oneRoomButton.makeSelect()
-                
-                self.scrollToTop()
+        let oneRoomButtonObservable = self.oneRoomButton.rx.tap.map { [unowned self] _ in return self.oneRoomButton }
+        let twoRoomButtonObservable = self.twoRoomButton.rx.tap.map { [unowned self] _ in return self.twoRoomButton }
+        let officehotelButtonObservable = self.officehotelButton.rx.tap.map { [unowned self] _ in return self.officehotelButton }
+        let apartmentButtonObservable = self.apartmentButton.rx.tap.map { [unowned self] _ in return self.apartmentButton }
+        
+        Observable.of(oneRoomButtonObservable, twoRoomButtonObservable, officehotelButtonObservable, apartmentButtonObservable).merge()
+            .filter { !$0.isSelected || reactor.currentState.roomTypeCount > 1 }
+            .do(onNext: { [weak self] button in
+                button.isSelected = !button.isSelected
+                button.makeSelect()
+                self?.scrollToTop()
             })
+            .map { Reactor.Action.selectRoom(selectIndex: RoomType(value: $0.tag)!, isSelect: $0.isSelected, isIncrease: self.sortPriceButton.isSelected) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        twoRoomButton.rx.tap
-            .filter { !self.twoRoomButton.isSelected || reactor.currentState.roomTypeCount > 1 }
-            .map { Reactor.Action.selectRoom(selectIndex: RoomType(value: self.twoRoomButton.tag)!, isSelect: !self.twoRoomButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
-            .do(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                
-                self.twoRoomButton.isSelected = !self.twoRoomButton.isSelected
-                self.twoRoomButton.makeSelect()
-                
-                self.scrollToTop()
-            })
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+        let monthlyRentButtonObservable = self.monthlyRentButton.rx.tap.map { [unowned self] _ in return self.monthlyRentButton }
+        let leaseRentButtonObservable = self.leaseRentButton.rx.tap.map { [unowned self] _ in return self.leaseRentButton }
+        let saleButtonObservable = self.saleButton.rx.tap.map { [unowned self] _ in return self.saleButton }
         
-        officehotelButton.rx.tap
-            .filter { !self.officehotelButton.isSelected || reactor.currentState.roomTypeCount > 1 }
-            .map { Reactor.Action.selectRoom(selectIndex: RoomType(value: self.officehotelButton.tag)!, isSelect: !self.officehotelButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
-            .do(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                
-                self.officehotelButton.isSelected = !self.officehotelButton.isSelected
-                self.officehotelButton.makeSelect()
-                
-                self.scrollToTop()
+        Observable.of(monthlyRentButtonObservable, leaseRentButtonObservable, saleButtonObservable).merge()
+            .filter { !$0.isSelected || reactor.currentState.saleTypeCount > 1 }
+            .do(onNext: { [weak self] button in
+                button.isSelected = !button.isSelected
+                button.makeSelect()
+                self?.scrollToTop()
             })
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        apartmentButton.rx.tap
-            .filter { !self.apartmentButton.isSelected || reactor.currentState.roomTypeCount > 1 }
-            .map { Reactor.Action.selectRoom(selectIndex: RoomType(value: self.apartmentButton.tag)!, isSelect: !self.apartmentButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
-            .do(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                
-                self.apartmentButton.isSelected = !self.apartmentButton.isSelected
-                self.apartmentButton.makeSelect()
-                
-                self.scrollToTop()
-            })
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        
-        monthlyRentButton.rx.tap
-            .filter { !self.monthlyRentButton.isSelected || reactor.currentState.saleTypeCount > 1 }
-            .map { Reactor.Action.selectSale(selectIndex: SellingType(value: self.monthlyRentButton.tag)!, isSelect: !self.monthlyRentButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
-            .do(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                
-                self.monthlyRentButton.isSelected = !self.monthlyRentButton.isSelected
-                self.monthlyRentButton.makeSelect()
-                
-                self.scrollToTop()
-            })
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        leaseRentButton.rx.tap
-            .filter { !self.leaseRentButton.isSelected || reactor.currentState.saleTypeCount > 1 }
-            .map { Reactor.Action.selectSale(selectIndex: SellingType(value: self.leaseRentButton.tag)!, isSelect: !self.leaseRentButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
-            .do(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                
-                self.leaseRentButton.isSelected = !self.leaseRentButton.isSelected
-                self.leaseRentButton.makeSelect()
-                
-                self.scrollToTop()
-            })
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        saleButton.rx.tap
-            .filter { !self.saleButton.isSelected || reactor.currentState.saleTypeCount > 1 }
-            .map { Reactor.Action.selectSale(selectIndex: SellingType(value: self.saleButton.tag)!, isSelect: !self.saleButton.isSelected, isIncrease: self.sortPriceButton.isSelected) }
-            .do(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                
-                self.saleButton.isSelected = !self.saleButton.isSelected
-                self.saleButton.makeSelect()
-                
-                self.scrollToTop()
-            })
+            .map { Reactor.Action.selectSale(selectIndex: SellingType(value: $0.tag)!, isSelect: $0.isSelected, isIncrease: self.sortPriceButton.isSelected) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -348,7 +280,7 @@ extension HomeViewController {
             .map { Reactor.Action.loadMore }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-                
+        
     }
     
     private func bindState(reactor: HomeViewReactor){
