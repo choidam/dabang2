@@ -16,9 +16,9 @@ class ApartmentCell: BaseTableViewCell<ApartmentCellReactor> {
     static let identifier = "apartmentCell"
     
     // MARK:- UI
-    let leftView = UIView().then {
-        $0.backgroundColor = .white
-    }
+    let leftView = UIView()
+    
+    let rightView = UIView()
     
     let roomImageView = UIImageView().then {
         $0.backgroundColor = .gray
@@ -27,10 +27,6 @@ class ApartmentCell: BaseTableViewCell<ApartmentCellReactor> {
     
     let selectImageView = UIImageView().then {
         $0.image = UIImage(named: "star2")
-    }
-    
-    let rightView = UIView().then {
-        $0.backgroundColor = .white
     }
     
     let titleLabel = UILabel().then {
@@ -134,7 +130,6 @@ extension ApartmentCell {
             $0.top.bottom.trailing.equalToSuperview()
         }
         
-        
         titleLabel.snp.makeConstraints{
             $0.leading.equalTo(rightView.snp.leading)
             $0.top.equalTo(rightView.snp.top).offset(18)
@@ -154,7 +149,7 @@ extension ApartmentCell {
         tagStackView.snp.makeConstraints {
             $0.top.equalTo(descriptionLabel.snp.bottom).offset(4)
             $0.leading.equalTo(rightView.snp.leading)
-            $0.trailing.equalTo(rightView.snp.trailing).offset(-24)
+            $0.trailing.lessThanOrEqualTo(rightView.snp.trailing).offset(-24)
             $0.height.equalTo(24)
         }
         
