@@ -10,17 +10,17 @@ import RxSwift
 
 protocol HomeServiceType {
     @discardableResult
-    func getRoomList() -> Observable<([RoomModel], AverageModel)>
+    func getRoomList() -> Observable<([Room], AverageModel)>
     
     @discardableResult
-    func sortRoomList(isIncrease: Bool, selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> Observable<[RoomModel]>
+    func sortRoomList(isIncrease: Bool, selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> Observable<[Room]>
     
     @discardableResult
-    func selectRoomKind(selectRoomType: RoomType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> Observable<[RoomModel]>
+    func selectRoomKind(selectRoomType: RoomType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> Observable<[Room]>
     
     @discardableResult
-    func selectSaleKind(selectSellingType: SellingType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType] ,selectedSellingTypes: [SellingType]) -> Observable<[RoomModel]>
+    func selectSaleKind(selectSellingType: SellingType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType] ,selectedSellingTypes: [SellingType]) -> Observable<[Room]>
     
     @discardableResult
-    func loadMore(selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> (Observable<[RoomModel]>, Bool)
+    func loadMore(selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> (Observable<[Room]>, Bool)
 }

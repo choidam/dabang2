@@ -12,11 +12,11 @@ import RxDataSources
 
 class HomeService: HomeServiceType {
     
-    var roomItems: [RoomModel] = [] // 전체 데이터
-    var items: [RoomModel] = []
+    var roomItems: [Room] = [] // 전체 데이터
+    var items: [Room] = []
     
     @discardableResult
-    func getRoomList() -> Observable<([RoomModel], AverageModel)> {
+    func getRoomList() -> Observable<([Room], AverageModel)> {
         var averageItem = AverageModel(monthPrice: "", name: "", yearPrice: "")
         
         if let filepath = Bundle.main.path(forResource: "RoomListData", ofType: "txt") {
@@ -24,33 +24,14 @@ class HomeService: HomeServiceType {
                 let contents = try String(contentsOfFile: filepath)
                 let data = contents.data(using: .utf8)!
                 let decoder = JSONDecoder()
-                let roomData = try decoder.decode(RoomResponseString.self, from: data)
+                let roomData = try decoder.decode(RoomResponseModel.self, from: data)
                 
                 averageItem.name = roomData.average[0].name
                 averageItem.monthPrice = roomData.average[0].monthPrice
                 averageItem.yearPrice = roomData.average[0].yearPrice
                 
                 for room in roomData.rooms {
-                    var tmp = ""
-                    var price = 0
-                    for ch in room.priceTitle {
-                        if ch.isNumber == true {
-                            tmp.append(ch)
-                        } else {
-                            if ch == "억" {
-                                price += Int(tmp)!*10000
-                                tmp = ""
-                            } else if ch == "천" {
-                                price += Int(tmp)!*1000
-                                continue
-                            } else if ch == "만" {
-                                price += Int(tmp)!
-                                continue
-                            }
-                        }
-                    }
-                    
-                    self.roomItems.append(RoomModel(desc: room.desc, isCheck: room.isCheck, priceTitle: room.priceTitle, price: price, roomType: RoomType(value: room.roomType)!, sellingType: SellingType(value: room.sellingType)!, hashTags: room.hashTags, imgURL: room.imgURL))
+                    self.roomItems.append(room)
                     roomItems.sort(by: { $0.price < $1.price })
                 }
                 
@@ -72,7 +53,7 @@ class HomeService: HomeServiceType {
     }
     
     @discardableResult
-    func sortRoomList(isIncrease: Bool, selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> Observable<[RoomModel]> {
+    func sortRoomList(isIncrease: Bool, selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> Observable<[Room]> {
         
         sortItems(isIncrease: isIncrease)
         
@@ -80,7 +61,7 @@ class HomeService: HomeServiceType {
         items.removeAll()
         
         for room in roomItems {
-            if selectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
+            if selectedRoomTypes.contains(room.roomTypeStr) && selectedSellingTypes.contains(room.sellingTypeStr) {
                 items.append(room)
             }
             if items.count == count { break }
@@ -90,7 +71,7 @@ class HomeService: HomeServiceType {
     }
     
     @discardableResult
-    func selectRoomKind(selectRoomType: RoomType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> Observable<[RoomModel]> {
+    func selectRoomKind(selectRoomType: RoomType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> Observable<[Room]> {
         sortItems(isIncrease: isIncrease)
     
         var newSelectedRoomTypes = selectedRoomTypes
@@ -104,7 +85,7 @@ class HomeService: HomeServiceType {
         items.removeAll()
         
         for room in roomItems {
-            if newSelectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
+            if newSelectedRoomTypes.contains(room.roomTypeStr) && selectedSellingTypes.contains(room.sellingTypeStr) {
                 items.append(room)
             }
         }
@@ -113,7 +94,7 @@ class HomeService: HomeServiceType {
     }
     
     @discardableResult
-    func selectSaleKind(selectSellingType: SellingType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType] ,selectedSellingTypes: [SellingType]) -> Observable<[RoomModel]> {
+    func selectSaleKind(selectSellingType: SellingType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType] ,selectedSellingTypes: [SellingType]) -> Observable<[Room]> {
         sortItems(isIncrease: isIncrease)
         
         var newSelectedSellingTypes = selectedSellingTypes
@@ -127,7 +108,7 @@ class HomeService: HomeServiceType {
         items.removeAll()
         
         for room in roomItems {
-            if selectedRoomTypes.contains(room.roomType) && newSelectedSellingTypes.contains(room.sellingType) {
+            if selectedRoomTypes.contains(room.roomTypeStr) && newSelectedSellingTypes.contains(room.sellingTypeStr) {
                 items.append(room)
             }
         }
@@ -136,7 +117,7 @@ class HomeService: HomeServiceType {
     }
     
     @discardableResult
-    func loadMore(selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> (Observable<[RoomModel]>, Bool){
+    func loadMore(selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> (Observable<[Room]>, Bool){
         
         var hasNext: Bool = true
         
@@ -154,7 +135,7 @@ class HomeService: HomeServiceType {
             for index in idx...roomItems.count-1 {
                 let room = roomItems[index]
 
-                if selectedRoomTypes.contains(room.roomType) && selectedSellingTypes.contains(room.sellingType) {
+                if selectedRoomTypes.contains(room.roomTypeStr) && selectedSellingTypes.contains(room.sellingTypeStr) {
                     addCount += 1
                     items.append(room)
                 }

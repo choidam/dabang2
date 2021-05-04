@@ -21,11 +21,11 @@ final class HomeViewReactor: Reactor {
     }
     
     enum Mutation {
-        case initList([RoomModel], AverageModel)
-        case list([RoomModel])
-        case sort([RoomModel], isIncrease: Bool)
-        case filterRoomList([RoomModel], isSelect: Bool, selectIndex: RoomType)
-        case filterSaleList([RoomModel], isSelect: Bool, selectIndex: SellingType)
+        case initList([Room], AverageModel)
+        case list([Room])
+        case sort([Room], isIncrease: Bool)
+        case filterRoomList([Room], isSelect: Bool, selectIndex: RoomType)
+        case filterSaleList([Room], isSelect: Bool, selectIndex: SellingType)
         case errorMsg
         
         var bindMutation: BindMutation {
@@ -169,13 +169,13 @@ final class HomeViewReactor: Reactor {
         return state
     }
     
-    private func setSectionItem(list: [RoomModel]){
+    private func setSectionItem(list: [Room]){
         roomItems.removeAll()
         
         if list.count >= 12 {
             for i in 0...list.count {
                 if i<12 {
-                    switch list[i].roomType {
+                    switch list[i].roomTypeStr {
                     case .oneRoom, .twoRoom:
                         roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[i])))
                     default:
@@ -184,7 +184,7 @@ final class HomeViewReactor: Reactor {
                 } else if i == 12 {
                     roomItems.append(RoomSectionItem.average(AverageCellReactor(name: averageItem.name, yearPrice: averageItem.yearPrice, monthPrice: averageItem.monthPrice)))
                 } else {
-                    switch list[i-1].roomType {
+                    switch list[i-1].roomTypeStr {
                     case .oneRoom, .twoRoom:
                         roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[i-1])))
                     default:
@@ -194,7 +194,7 @@ final class HomeViewReactor: Reactor {
             }
         } else {
             for room in list {
-                switch room.roomType {
+                switch room.roomTypeStr {
                 case .oneRoom, .twoRoom:
                     roomItems.append(RoomSectionItem.room(RoomCellReactor(room: room)))
                 default:

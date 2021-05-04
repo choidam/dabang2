@@ -36,7 +36,6 @@
 		ED82DFA72628048C00DDE880 /* RoomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED82DFA62628048C00DDE880 /* RoomCell.swift */; };
 		EDAB76AA2632547500005240 /* ApartmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAB76A92632547500005240 /* ApartmentCell.swift */; };
 		EDAB76AD2632548C00005240 /* ApartmentCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAB76AC2632548C00005240 /* ApartmentCellReactor.swift */; };
-		EDD4E856262EB5E7007008B6 /* RoomModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD4E855262EB5E7007008B6 /* RoomModel.swift */; };
 		EDD4E859262EB5EE007008B6 /* AverageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD4E858262EB5EE007008B6 /* AverageModel.swift */; };
 		EDF7FF54262D5C6F00C4DC7D /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF7FF53262D5C6F00C4DC7D /* BaseTableViewCell.swift */; };
 		EDF7FF57262D5D1A00C4DC7D /* RoomCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF7FF56262D5D1A00C4DC7D /* RoomCellReactor.swift */; };
@@ -70,7 +69,6 @@
 		ED82DFA62628048C00DDE880 /* RoomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCell.swift; sourceTree = "<group>"; };
 		EDAB76A92632547500005240 /* ApartmentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentCell.swift; sourceTree = "<group>"; };
 		EDAB76AC2632548C00005240 /* ApartmentCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentCellReactor.swift; sourceTree = "<group>"; };
-		EDD4E855262EB5E7007008B6 /* RoomModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomModel.swift; sourceTree = "<group>"; };
 		EDD4E858262EB5EE007008B6 /* AverageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageModel.swift; sourceTree = "<group>"; };
 		EDF7FF53262D5C6F00C4DC7D /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		EDF7FF56262D5D1A00C4DC7D /* RoomCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCellReactor.swift; sourceTree = "<group>"; };
@@ -195,7 +193,6 @@
 			isa = PBXGroup;
 			children = (
 				ED82DF952627D94500DDE880 /* Room.swift */,
-				EDD4E855262EB5E7007008B6 /* RoomModel.swift */,
 				EDD4E858262EB5EE007008B6 /* AverageModel.swift */,
 				ED255B70263F9045008C2423 /* RoomType.swift */,
 				ED255B73263F904D008C2423 /* SellingType.swift */,
@@ -326,7 +323,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED7E68B426296C430016BE4E /* HomeServiceType.swift in Sources */,
-				EDD4E856262EB5E7007008B6 /* RoomModel.swift in Sources */,
 				ED7E68B826296C4A0016BE4E /* HomeService.swift in Sources */,
 				ED82DF602627D30600DDE880 /* HomeViewController.swift in Sources */,
 				ED7E68B0262961910016BE4E /* AverageCell.swift in Sources */,

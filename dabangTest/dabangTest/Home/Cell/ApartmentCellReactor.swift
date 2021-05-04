@@ -15,12 +15,12 @@ class ApartmentCellReactor: Reactor {
     typealias Action = NoAction
         
     struct State {
-        var room: RoomModel
+        var room: Room
     }
     
     var initialState: State
     
-    init(room: RoomModel) {
+    init(room: Room) {
         initialState = State(room: room)
     }
 }
