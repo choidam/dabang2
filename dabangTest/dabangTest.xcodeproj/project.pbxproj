@@ -36,6 +36,7 @@
 		ED82DFA72628048C00DDE880 /* RoomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED82DFA62628048C00DDE880 /* RoomCell.swift */; };
 		EDAB76AA2632547500005240 /* ApartmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAB76A92632547500005240 /* ApartmentCell.swift */; };
 		EDAB76AD2632548C00005240 /* ApartmentCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAB76AC2632548C00005240 /* ApartmentCellReactor.swift */; };
+		EDB8980226411C50006EF034 /* UIStackView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB8980126411C50006EF034 /* UIStackView+Extensions.swift */; };
 		EDD4E859262EB5EE007008B6 /* AverageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD4E858262EB5EE007008B6 /* AverageModel.swift */; };
 		EDF7FF54262D5C6F00C4DC7D /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF7FF53262D5C6F00C4DC7D /* BaseTableViewCell.swift */; };
 		EDF7FF57262D5D1A00C4DC7D /* RoomCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF7FF56262D5D1A00C4DC7D /* RoomCellReactor.swift */; };
@@ -69,6 +70,7 @@
 		ED82DFA62628048C00DDE880 /* RoomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCell.swift; sourceTree = "<group>"; };
 		EDAB76A92632547500005240 /* ApartmentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentCell.swift; sourceTree = "<group>"; };
 		EDAB76AC2632548C00005240 /* ApartmentCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentCellReactor.swift; sourceTree = "<group>"; };
+		EDB8980126411C50006EF034 /* UIStackView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extensions.swift"; sourceTree = "<group>"; };
 		EDD4E858262EB5EE007008B6 /* AverageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageModel.swift; sourceTree = "<group>"; };
 		EDF7FF53262D5C6F00C4DC7D /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		EDF7FF56262D5D1A00C4DC7D /* RoomCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCellReactor.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				ED82DF9F2627DEE200DDE880 /* UIButton+Extensions.swift */,
 				ED82DFA32627E18300DDE880 /* UIColor+Extensions.swift */,
 				ED56BDBD26313ABD00EE4DD6 /* UIScrollView+Extensions.swift */,
+				EDB8980126411C50006EF034 /* UIStackView+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				ED7E68B0262961910016BE4E /* AverageCell.swift in Sources */,
 				EDF7FF54262D5C6F00C4DC7D /* BaseTableViewCell.swift in Sources */,
 				ED82DFA02627DEE200DDE880 /* UIButton+Extensions.swift in Sources */,
+				EDB8980226411C50006EF034 /* UIStackView+Extensions.swift in Sources */,
 				EDD4E859262EB5EE007008B6 /* AverageModel.swift in Sources */,
 				ED82DF8C2627D55A00DDE880 /* BaseViewController.swift in Sources */,
 				ED82DFA42627E18300DDE880 /* UIColor+Extensions.swift in Sources */,

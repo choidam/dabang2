@@ -20,6 +20,15 @@ class ApartmentCell: BaseTableViewCell<ApartmentCellReactor> {
         $0.backgroundColor = .white
     }
     
+    let roomImageView = UIImageView().then {
+        $0.backgroundColor = .gray
+        $0.layer.cornerRadius = 5
+    }
+    
+    let selectImageView = UIImageView().then {
+        $0.image = UIImage(named: "star2")
+    }
+    
     let rightView = UIView().then {
         $0.backgroundColor = .white
     }
@@ -39,36 +48,32 @@ class ApartmentCell: BaseTableViewCell<ApartmentCellReactor> {
         $0.font = UIFont.systemFont(ofSize: 13)
     }
     
-    let roomImageView = UIImageView().then {
-        $0.backgroundColor = .gray
-        $0.layer.cornerRadius = 5
-    }
-    
-    let divideView = UIView().then {
-        $0.backgroundColor = .verylightGray
+    let tagStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.alignment = .leading
+        $0.distribution = .fillProportionally
+        $0.spacing = 4
     }
     
     let tag1 = UIButton().then {
         $0.setTitle("tag1", for: .normal)
     }
-    
+
     let tag2 = UIButton().then {
         $0.setTitle("tag2", for: .normal)
     }
-    
+
     let tag3 = UIButton().then {
         $0.setTitle("tag3", for: .normal)
     }
-    
+
     let tag4 = UIButton().then {
         $0.setTitle("tag4", for: .normal)
     }
     
-    let selectImageView = UIImageView().then {
-        $0.image = UIImage(named: "star2")
+    let divideView = UIView().then {
+        $0.backgroundColor = .verylightGray
     }
-    
-    var widthConstraint: Constraint?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -99,13 +104,9 @@ extension ApartmentCell {
         rightView.addSubview(roomTypeLabel)
         rightView.addSubview(descriptionLabel)
         
-        contentView.addSubview(tag1)
-        contentView.addSubview(tag2)
-        contentView.addSubview(tag3)
-        contentView.addSubview(tag4)
+        rightView.addSubview(tagStackView)
         
         contentView.addSubview(divideView)
-        
     }
     
     private func initLayout(){
@@ -150,29 +151,17 @@ extension ApartmentCell {
             $0.trailing.equalTo(rightView.snp.trailing).offset(-10)
         }
         
+        tagStackView.snp.makeConstraints {
+            $0.top.equalTo(descriptionLabel.snp.bottom).offset(4)
+            $0.leading.equalTo(rightView.snp.leading)
+            $0.trailing.equalTo(rightView.snp.trailing).offset(-24)
+            $0.height.equalTo(24)
+        }
+        
         tag1.makeHashTag()
-        tag1.snp.makeConstraints{
-            $0.leading.equalTo(173)
-            $0.top.equalTo(descriptionLabel.snp.bottom).offset(5)
-        }
-        
         tag2.makeHashTag()
-        tag2.snp.makeConstraints{
-            $0.centerY.equalTo(tag1.snp.centerY)
-            $0.leading.equalTo(tag1.snp.trailing).offset(4)
-        }
-        
         tag3.makeHashTag()
-        tag3.snp.makeConstraints{
-            $0.centerY.equalTo(tag1.snp.centerY)
-            $0.leading.equalTo(tag2.snp.trailing).offset(4)
-        }
-        
         tag4.makeHashTag()
-        tag4.snp.makeConstraints{
-            $0.centerY.equalTo(tag1.snp.centerY)
-            $0.leading.equalTo(tag3.snp.trailing).offset(4)
-        }
         
         divideView.snp.makeConstraints{
             $0.leading.trailing.bottom.equalTo(0)
@@ -183,64 +172,53 @@ extension ApartmentCell {
     private func bindState(reactor: ApartmentCellReactor){
         
         reactor.state
-            .map { $0.room }
-            .subscribe(onNext: { [weak self] room in
+            .map { $0.priceTitle }
+            .bind(to: titleLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.roomType.roomType }
+            .bind(to: roomTypeLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.desc }
+            .bind(to: descriptionLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isCheck }
+            .filter{ $0 == true }
+            .subscribe(onNext: { [weak self] _ in
+                self?.selectImageView.image = UIImage(named: "star1")
+            })
+            .disposed(by: disposeBag)
+            
+        reactor.state
+            .map { $0.hashTags }
+            .subscribe(onNext: { [weak self] tags in
                 guard let self = self else { return }
                 
-                self.roomTypeLabel.text = room.roomTypeStr.roomType
-                self.titleLabel.text = "\(room.sellingTypeStr.sellingType) \(room.priceTitle)"
-                                
-                self.descriptionLabel.text = room.desc
+                self.tagStackView.removeAllArrangedSubviews()
                 
-                switch room.hashTags.count {
-                case 0:
-                    self.tag1.isHidden = true
-                    self.tag2.isHidden = true
-                    self.tag3.isHidden = true
-                    self.tag4.isHidden = true
-                case 1:
-                    self.tag1.setTitle(room.hashTags[0], for: .normal)
-                    self.tag2.isHidden = true
-                    self.tag3.isHidden = true
-                    self.tag4.isHidden = true
-                case 2:
-                    self.tag1.setTitle(room.hashTags[0], for: .normal)
-                    self.tag2.setTitle(room.hashTags[1], for: .normal)
-                    self.tag3.isHidden = true
-                    self.tag4.isHidden = true
-                case 3:
-                    self.tag1.setTitle(room.hashTags[0], for: .normal)
-                    self.tag2.setTitle(room.hashTags[1], for: .normal)
-                    self.tag3.setTitle(room.hashTags[2], for: .normal)
-                    self.tag4.isHidden = true
-                default:
-                    self.tag1.setTitle(room.hashTags[0], for: .normal)
-                    self.tag2.setTitle(room.hashTags[1], for: .normal)
-                    self.tag3.setTitle(room.hashTags[2], for: .normal)
-                    self.tag4.setTitle(room.hashTags[3], for: .normal)
-                    
-                    let leftWidth = UIScreen.main.bounds.width - 173 - self.tag1.intrinsicContentSize.width - self.tag2.intrinsicContentSize.width - self.tag3.intrinsicContentSize.width - 22
-                    
-                    self.tag4.snp.makeConstraints { make in
-                        self.widthConstraint = make.width.equalTo(leftWidth).constraint
+                var maxCount = 0
+                for tag in tags {
+                    maxCount += 1
+                    let tagButton = UIButton().then {
+                        $0.setTitle(tag, for: .normal)
+                        $0.makeHashTag()
                     }
+                    self.tagStackView.addArrangedSubview(tagButton)
                     
-                    if leftWidth <= self.tag4.intrinsicContentSize.width {
-                        self.widthConstraint?.activate()
-                    } else {
-                        self.widthConstraint?.deactivate()
-                    }
-                    
-                }
-                
-                if room.isCheck {
-                    self.selectImageView.image = UIImage(named: "star1")
+                    if maxCount == 4 { break }
                 }
             })
             .disposed(by: disposeBag)
+
     }
     
     private func bindAction(reactor: ApartmentCellReactor){
         
     }
 }
+

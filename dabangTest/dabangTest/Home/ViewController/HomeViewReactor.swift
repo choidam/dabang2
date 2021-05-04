@@ -174,7 +174,7 @@ final class HomeViewReactor: Reactor {
                     case .oneRoom, .twoRoom:
                         roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[i])))
                     case .officehotel, .apartment:
-                        roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: list[i])))
+                        roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(priceTitle: list[i].priceTitle, roomType: list[i].roomTypeStr, desc: list[i].desc, hashTags: list[i].hashTags, isCheck: list[i].isCheck)))
                     }
                 } else if i == 12 {
                     roomItems.append(RoomSectionItem.average(AverageCellReactor(name: averageItem.name, yearPrice: averageItem.yearPrice, monthPrice: averageItem.monthPrice)))
@@ -183,7 +183,7 @@ final class HomeViewReactor: Reactor {
                     case .oneRoom, .twoRoom:
                         roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[i-1])))
                     case .officehotel, .apartment:
-                        roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: list[i-1])))
+                        roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(priceTitle: list[i-1].priceTitle, roomType: list[i-1].roomTypeStr, desc: list[i-1].desc, hashTags: list[i-1].hashTags, isCheck: list[i-1].isCheck)))
                     }
                 }
             }
@@ -193,7 +193,7 @@ final class HomeViewReactor: Reactor {
                 case .oneRoom, .twoRoom:
                     roomItems.append(RoomSectionItem.room(RoomCellReactor(room: room)))
                 case .officehotel, .apartment:
-                    roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: room)))
+                    roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(priceTitle: room.priceTitle, roomType: room.roomTypeStr, desc: room.desc, hashTags: room.hashTags, isCheck: room.isCheck)))
                 }
             }
         }

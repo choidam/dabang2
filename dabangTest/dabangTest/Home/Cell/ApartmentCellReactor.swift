@@ -15,12 +15,22 @@ class ApartmentCellReactor: Reactor {
     typealias Action = NoAction
         
     struct State {
-        var room: Room
+        var priceTitle: String
+        var roomType: RoomType
+        var desc: String
+        var hashTags: [String]
+        var isCheck: Bool
     }
     
     var initialState: State
     
-    init(room: Room) {
-        initialState = State(room: room)
+    init(priceTitle: String, roomType: RoomType, desc: String, hashTags: [String], isCheck: Bool) {
+        initialState = State(priceTitle: priceTitle, roomType: roomType, desc: desc, hashTags: hashTags, isCheck: isCheck)
+        
+        initialState.priceTitle = priceTitle
+        initialState.roomType = roomType
+        initialState.desc = desc
+        initialState.hashTags = hashTags
+        initialState.isCheck = isCheck
     }
 }
