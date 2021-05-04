@@ -54,17 +54,13 @@ class HomeService: HomeServiceType {
     
     @discardableResult
     func sortRoomList(isIncrease: Bool, selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> Observable<[Room]> {
-        
         sortItems(isIncrease: isIncrease)
-        
-        let count = items.count
         items.removeAll()
         
         for room in roomItems {
             if selectedRoomTypes.contains(room.roomTypeStr) && selectedSellingTypes.contains(room.sellingTypeStr) {
                 items.append(room)
             }
-            if items.count == count { break }
         }
         
         return Observable.just(items)
@@ -73,8 +69,7 @@ class HomeService: HomeServiceType {
     @discardableResult
     func selectRoomKind(selectRoomType: RoomType, isSelect: Bool, isIncrease: Bool, selectedRoomTypes: [RoomType], selectedSellingTypes: [SellingType]) -> Observable<[Room]> {
         sortItems(isIncrease: isIncrease)
-        print("increase \(isIncrease)")
-    
+        
         var newSelectedRoomTypes = selectedRoomTypes
         
         if isSelect {

@@ -54,10 +54,7 @@ final class HomeViewReactor: Reactor {
         var state: BindMutation = .initialState
         
         var sections: [RoomSection] = []
-        
-        var roomTypeCount: Int = 4
-        var saleTypeCount: Int = 3
-        
+
         var selectedRoomTypes: [RoomType] = [.oneRoom, .twoRoom, .officehotel, .apartment]
         var selectedSellingTypes: [SellingType] = [.monthlyRent, .leaseRent, .sale]
         
@@ -98,12 +95,12 @@ final class HomeViewReactor: Reactor {
             return request.map { Mutation.filterSaleList($0, isSelect: isSelect, selectIndex: selectSellingType) }
             
         case .loadMore:
-            let loadmore = service.loadMore(selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes)
+            let request = service.loadMore(selectedRoomTypes: currentState.selectedRoomTypes, selectedSellingTypes: currentState.selectedSellingTypes)
             
-            if loadmore.1 == false {
+            if request.1 == false {
                 return .empty()
             } else {
-                return loadmore.0.map(Mutation.list)
+                return request.0.map(Mutation.list)
             }
         }
     }
@@ -127,19 +124,18 @@ final class HomeViewReactor: Reactor {
             
         case .sort(let list, let isIncrease):
             state.isIncrease = isIncrease
+            
             setSectionItem(list: list)
             state.sections = [.section(roomItems)]
             
         case .filterRoomList(let list, let isSelect, let selectIndex):
             if isSelect {
-                state.roomTypeCount += 1
                 state.selectedRoomTypes.append(selectIndex)
             } else {
-                if state.roomTypeCount == 1 {
+                if state.selectedRoomTypes.count == 1 {
                     state.state = .errorMsg
                     return state
                 }
-                state.roomTypeCount -= 1
                 state.selectedRoomTypes = state.selectedRoomTypes.filter { $0 != selectIndex }
             }
             
@@ -148,14 +144,12 @@ final class HomeViewReactor: Reactor {
             
         case .filterSaleList(let list, let isSelect, let selectIndex):
             if isSelect {
-                state.saleTypeCount += 1
                 state.selectedSellingTypes.append(selectIndex)
             } else {
-                if state.saleTypeCount == 1 {
+                if state.selectedSellingTypes.count == 1 {
                     state.state = .errorMsg
                     return state
                 }
-                state.saleTypeCount -= 1
                 state.selectedSellingTypes = state.selectedSellingTypes.filter { $0 != selectIndex }
             }
             
@@ -179,7 +173,7 @@ final class HomeViewReactor: Reactor {
                     switch list[i].roomTypeStr {
                     case .oneRoom, .twoRoom:
                         roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[i])))
-                    default:
+                    case .officehotel, .apartment:
                         roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: list[i])))
                     }
                 } else if i == 12 {
@@ -188,7 +182,7 @@ final class HomeViewReactor: Reactor {
                     switch list[i-1].roomTypeStr {
                     case .oneRoom, .twoRoom:
                         roomItems.append(RoomSectionItem.room(RoomCellReactor(room: list[i-1])))
-                    default:
+                    case .officehotel, .apartment:
                         roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: list[i-1])))
                     }
                 }
@@ -198,7 +192,7 @@ final class HomeViewReactor: Reactor {
                 switch room.roomTypeStr {
                 case .oneRoom, .twoRoom:
                     roomItems.append(RoomSectionItem.room(RoomCellReactor(room: room)))
-                default:
+                case .officehotel, .apartment:
                     roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(room: room)))
                 }
             }

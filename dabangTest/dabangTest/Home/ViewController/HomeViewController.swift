@@ -250,7 +250,7 @@ extension HomeViewController {
         let apartmentButtonObservable = self.apartmentButton.rx.tap.map { [unowned self] _ in return self.apartmentButton }
         
         Observable.of(oneRoomButtonObservable, twoRoomButtonObservable, officehotelButtonObservable, apartmentButtonObservable).merge()
-            .filter { !$0.isSelected || reactor.currentState.roomTypeCount > 1 }
+            .filter { !$0.isSelected || reactor.currentState.selectedRoomTypes.count > 1 }
             .do(onNext: { [weak self] button in
                 button.isSelected = !button.isSelected
                 button.makeSelect()
@@ -265,7 +265,7 @@ extension HomeViewController {
         let saleButtonObservable = self.saleButton.rx.tap.map { [unowned self] _ in return self.saleButton }
         
         Observable.of(monthlyRentButtonObservable, leaseRentButtonObservable, saleButtonObservable).merge()
-            .filter { !$0.isSelected || reactor.currentState.saleTypeCount > 1 }
+            .filter { !$0.isSelected || reactor.currentState.selectedSellingTypes.count > 1 }
             .do(onNext: { [weak self] button in
                 button.isSelected = !button.isSelected
                 button.makeSelect()
