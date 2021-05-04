@@ -147,12 +147,16 @@ extension RoomCell {
     private func bindState(reactor: RoomCellReactor){
         
         reactor.state
-            .map { $0.priceTitle }
-            .bind(to: titleLabel.rx.text)
+            .map { ($0.sellingType.sellingTypeName, $0.priceTitle) }
+            .subscribe(onNext: { [weak self] (selling, price) in
+                guard let self = self else { return }
+                
+                self.titleLabel.text = "\(selling) \(price)"
+            })
             .disposed(by: disposeBag)
         
         reactor.state
-            .map { $0.roomType.roomType }
+            .map { $0.roomType.roomTypeName }
             .bind(to: roomTypeLabel.rx.text)
             .disposed(by: disposeBag)
         

@@ -17,6 +17,7 @@ class ApartmentCellReactor: Reactor {
     struct State {
         var priceTitle: String
         var roomType: RoomType
+        var sellingType: SellingType
         var desc: String
         var hashTags: [String]
         var isCheck: Bool
@@ -24,11 +25,12 @@ class ApartmentCellReactor: Reactor {
     
     var initialState: State
     
-    init(priceTitle: String, roomType: RoomType, desc: String, hashTags: [String], isCheck: Bool) {
-        initialState = State(priceTitle: priceTitle, roomType: roomType, desc: desc, hashTags: hashTags, isCheck: isCheck)
+    init(priceTitle: String, roomType: RoomType, sellingType: SellingType, desc: String, hashTags: [String], isCheck: Bool) {
+        initialState = State(priceTitle: priceTitle, roomType: roomType, sellingType: sellingType, desc: desc, hashTags: hashTags, isCheck: isCheck)
         
         initialState.priceTitle = priceTitle
         initialState.roomType = roomType
+        initialState.sellingType = sellingType
         initialState.desc = desc
         initialState.hashTags = hashTags
         initialState.isCheck = isCheck

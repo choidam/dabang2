@@ -7,13 +7,15 @@
 
 import Foundation
 
-enum RoomType: Int, Codable, CaseIterable {
-    case oneRoom
-    case twoRoom
-    case officehotel
-    case apartment
-    
-    var roomType: String {
+enum RoomType: Int, Codable, RawValueIterable {
+    case oneRoom = 0
+    case twoRoom = 1
+    case officehotel = 2
+    case apartment = 3
+}
+
+extension RoomType {
+    var roomTypeName: String {
         switch self {
         case .oneRoom: return "원룸"
         case .twoRoom: return "투쓰리룸"
@@ -21,20 +23,20 @@ enum RoomType: Int, Codable, CaseIterable {
         case .apartment: return "아파트"
         }
     }
-    
-    init?(value: Int?) {
-        guard value != nil else { return nil }
-        
-        switch value! {
-        case 0: self = .oneRoom
-        case 1: self = .twoRoom
-        case 2: self = .officehotel
-        case 3: self = .apartment
-        default: return nil
-        }
+}
+
+
+protocol RawValueIterable: RawRepresentable, CaseIterable {
+    static var allValues: [RawValue] { get }
+    var value: RawValue { get }
+}
+               
+extension RawValueIterable {
+    static var allValues: [RawValue] {
+        return allCases.map{ $0.rawValue }
     }
     
-    static var roomTypes: [RoomType] {
-        return [.oneRoom, .twoRoom, .officehotel, .apartment]
+    var value: RawValue {
+        return self.rawValue
     }
 }

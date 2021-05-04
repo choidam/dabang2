@@ -73,7 +73,7 @@ struct Room: Codable {
         roomType = try container.decode(Int.self, forKey: .roomType)
         sellingType = try container.decode(Int.self, forKey: .sellingType)
         
-        roomTypeStr = RoomType(value: roomType)!
+        roomTypeStr = RoomType(rawValue: roomType)!
         sellingTypeStr = SellingType(rawValue: sellingType)!
         
         hashTags = try container.decode([String].self, forKey: .hashTags)

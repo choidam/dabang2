@@ -132,10 +132,6 @@ final class HomeViewReactor: Reactor {
             if isSelect {
                 state.selectedRoomTypes.append(selectIndex)
             } else {
-                if state.selectedRoomTypes.count == 1 {
-                    state.state = .errorMsg
-                    return state
-                }
                 state.selectedRoomTypes = state.selectedRoomTypes.filter { $0 != selectIndex }
             }
             
@@ -146,10 +142,6 @@ final class HomeViewReactor: Reactor {
             if isSelect {
                 state.selectedSellingTypes.append(selectIndex)
             } else {
-                if state.selectedSellingTypes.count == 1 {
-                    state.state = .errorMsg
-                    return state
-                }
                 state.selectedSellingTypes = state.selectedSellingTypes.filter { $0 != selectIndex }
             }
             
@@ -172,18 +164,18 @@ final class HomeViewReactor: Reactor {
                 if i<12 {
                     switch list[i].roomTypeStr {
                     case .oneRoom, .twoRoom:
-                        roomItems.append(RoomSectionItem.room(RoomCellReactor(priceTitle: list[i].priceTitle, roomType: list[i].roomTypeStr, desc: list[i].desc, hashTags: list[i].hashTags, isCheck: list[i].isCheck)))
+                        roomItems.append(RoomSectionItem.room(RoomCellReactor(priceTitle: list[i].priceTitle, roomType: list[i].roomTypeStr, sellingType: list[i].sellingTypeStr, desc: list[i].desc, hashTags: list[i].hashTags, isCheck: list[i].isCheck)))
                     case .officehotel, .apartment:
-                        roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(priceTitle: list[i].priceTitle, roomType: list[i].roomTypeStr, desc: list[i].desc, hashTags: list[i].hashTags, isCheck: list[i].isCheck)))
+                        roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(priceTitle: list[i].priceTitle, roomType: list[i].roomTypeStr, sellingType: list[i].sellingTypeStr, desc: list[i].desc, hashTags: list[i].hashTags, isCheck: list[i].isCheck)))
                     }
                 } else if i == 12 {
                     roomItems.append(RoomSectionItem.average(AverageCellReactor(name: averageItem.name, yearPrice: averageItem.yearPrice, monthPrice: averageItem.monthPrice)))
                 } else {
                     switch list[i-1].roomTypeStr {
                     case .oneRoom, .twoRoom:
-                        roomItems.append(RoomSectionItem.room(RoomCellReactor(priceTitle: list[i-1].priceTitle, roomType: list[i-1].roomTypeStr, desc: list[i-1].desc, hashTags: list[i-1].hashTags, isCheck: list[i-1].isCheck)))
+                        roomItems.append(RoomSectionItem.room(RoomCellReactor(priceTitle: list[i-1].priceTitle, roomType: list[i-1].roomTypeStr, sellingType: list[i-1].sellingTypeStr, desc: list[i-1].desc, hashTags: list[i-1].hashTags, isCheck: list[i-1].isCheck)))
                     case .officehotel, .apartment:
-                        roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(priceTitle: list[i-1].priceTitle, roomType: list[i-1].roomTypeStr, desc: list[i-1].desc, hashTags: list[i-1].hashTags, isCheck: list[i-1].isCheck)))
+                        roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(priceTitle: list[i-1].priceTitle, roomType: list[i-1].roomTypeStr, sellingType: list[i-1].sellingTypeStr, desc: list[i-1].desc, hashTags: list[i-1].hashTags, isCheck: list[i-1].isCheck)))
                     }
                 }
             }
@@ -191,9 +183,9 @@ final class HomeViewReactor: Reactor {
             for room in list {
                 switch room.roomTypeStr {
                 case .oneRoom, .twoRoom:
-                    roomItems.append(RoomSectionItem.room(RoomCellReactor(priceTitle: room.priceTitle, roomType: room.roomTypeStr, desc: room.desc, hashTags: room.hashTags, isCheck: room.isCheck)))
+                    roomItems.append(RoomSectionItem.room(RoomCellReactor(priceTitle: room.priceTitle, roomType: room.roomTypeStr, sellingType: room.sellingTypeStr, desc: room.desc, hashTags: room.hashTags, isCheck: room.isCheck)))
                 case .officehotel, .apartment:
-                    roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(priceTitle: room.priceTitle, roomType: room.roomTypeStr, desc: room.desc, hashTags: room.hashTags, isCheck: room.isCheck)))
+                    roomItems.append(RoomSectionItem.apartment(ApartmentCellReactor(priceTitle: room.priceTitle, roomType: room.roomTypeStr, sellingType: room.sellingTypeStr, desc: room.desc, hashTags: room.hashTags, isCheck: room.isCheck)))
                 }
             }
         }

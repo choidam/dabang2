@@ -51,22 +51,6 @@ class ApartmentCell: BaseTableViewCell<ApartmentCellReactor> {
         $0.spacing = 4
     }
     
-    let tag1 = UIButton().then {
-        $0.setTitle("tag1", for: .normal)
-    }
-
-    let tag2 = UIButton().then {
-        $0.setTitle("tag2", for: .normal)
-    }
-
-    let tag3 = UIButton().then {
-        $0.setTitle("tag3", for: .normal)
-    }
-
-    let tag4 = UIButton().then {
-        $0.setTitle("tag4", for: .normal)
-    }
-    
     let divideView = UIView().then {
         $0.backgroundColor = .verylightGray
     }
@@ -153,11 +137,6 @@ extension ApartmentCell {
             $0.height.equalTo(24)
         }
         
-        tag1.makeHashTag()
-        tag2.makeHashTag()
-        tag3.makeHashTag()
-        tag4.makeHashTag()
-        
         divideView.snp.makeConstraints{
             $0.leading.trailing.bottom.equalTo(0)
             $0.height.equalTo(1)
@@ -167,12 +146,16 @@ extension ApartmentCell {
     private func bindState(reactor: ApartmentCellReactor){
         
         reactor.state
-            .map { $0.priceTitle }
-            .bind(to: titleLabel.rx.text)
+            .map { ($0.sellingType.sellingTypeName, $0.priceTitle) }
+            .subscribe(onNext: { [weak self] (selling, price) in
+                guard let self = self else { return }
+                
+                self.titleLabel.text = "\(selling) \(price)"
+            })
             .disposed(by: disposeBag)
         
         reactor.state
-            .map { $0.roomType.roomType }
+            .map { $0.roomType.roomTypeName }
             .bind(to: roomTypeLabel.rx.text)
             .disposed(by: disposeBag)
         
